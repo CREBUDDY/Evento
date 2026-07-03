@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String     @id @default(uuid())
+  displayName  String
+  email        String?    @unique // Optional because anonymous users might not have emails
+  photoURL     String?
+  college      String?
+  profession   String?
+  gender       String?
+  role         String     @default("attendee")
+  
+  // Relations
+  events       Event[]    @relation("Organizer")
+  attendances  Attendee[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Event {
+  id             String      @id @default(uuid())
+  title          String
+  description    String
+  category       String
+  dateTime       String
+  venue          String
+  venueAddress   String
+  capacity       Int
+  price          Float
+  targetAudience String
+  imageUrl       String?
+  status         String      @default("draft") // published, draft, cancelled
+  
+  organizerId    String
+  organizer      User        @relation("Organizer", fields: [organizerId], references: [id])
+  
+  attendees      Attendee[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Attendee {
+  id               String   @id @default(uuid())
+  userId           String
+  eventId          String
+  verificationCode String   @unique @default(cuid())
+  verified         Boolean  @default(false)
+  
+  user             User     @relation(fields: [userId], references: [id])
+  event            Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+
+  @@unique([userId, eventId])
+}

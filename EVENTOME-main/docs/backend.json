@@ -1,0 +1,210 @@
+
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the Evento platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "URL of the user's profile photo.",
+          "format": "uri"
+        },
+        "role": {
+          "type": "string",
+          "description": "User's role (e.g., 'organizer', 'attendee')."
+        },
+        "joinedEvents": {
+          "type": "array",
+          "description": "List of event IDs that the user has joined.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "college": {
+          "type": "string",
+          "description": "The user's college or university name."
+        },
+        "profession": {
+          "type": "string",
+          "description": "The user's current role or profession."
+        },
+        "gender": {
+          "type": "string",
+          "description": "The user's gender.",
+          "enum": [
+            "Male",
+            "Female",
+            "Other",
+            "Prefer not to say"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName"
+      ]
+    },
+    "Creato": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Creato",
+      "type": "object",
+      "description": "Represents an event in the Creato platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the event."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the event."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the event."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the event (e.g., 'Cultural', 'Hackathon')."
+        },
+        "dateTime": {
+          "type": "string",
+          "description": "Date and time of the event.",
+          "format": "date-time"
+        },
+        "venue": {
+          "type": "string",
+          "description": "Venue of the event."
+        },
+        "capacity": {
+          "type": "number",
+          "description": "Maximum capacity of attendees for the event."
+        },
+        "price": {
+          "type": "number",
+          "description": "Entry fee for the event (0 for free)."
+        },
+        "targetAudience": {
+          "type": "string",
+          "description": "Target audience for the event (e.g., 'College', 'Public')."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the event's banner image.",
+          "format": "uri"
+        },
+        "organizerId": {
+          "type": "string",
+          "description": "ID of the user who organized the event."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the event (e.g., 'published', 'draft', 'cancelled')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the event was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "category",
+        "dateTime",
+        "venue",
+        "capacity",
+        "price",
+        "targetAudience",
+        "organizerId",
+        "status",
+        "createdAt"
+      ]
+    },
+    "Attendee": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Attendee",
+      "type": "object",
+      "description": "Represents a user who has joined an event.",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique ID of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the user."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The photo URL of the user.",
+          "format": "uri"
+        },
+        "verificationCode": {
+          "type": "string",
+          "description": "A unique 6-character code for event check-in."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Whether the attendee has been checked in."
+        }
+      },
+      "required": ["userId", "displayName", "photoURL", "verificationCode", "verified"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles."
+        }
+      },
+      {
+        "path": "/creato/{eventId}",
+        "definition": {
+          "entityName": "Creato",
+          "schema": {
+            "$ref": "#/backend/entities/Creato"
+          },
+          "description": "Stores event details created from the Creato page."
+        }
+      },
+      {
+        "path": "/creato/{eventId}/attendees/{userId}",
+        "definition": {
+            "entityName": "Attendee",
+            "schema": {
+                "$ref": "#/backend/entities/Attendee"
+            },
+            "description": "Stores information about users attending a specific event."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "placeholderImages": [
+    {
+      "id": "1",
+      "description": "A vibrant cultural festival at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1709105492660-c6fd6702a9fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjdWx0dXJhbCUyMGZlc3RpdmFsfGVufDB8fHx8MTc2MTE1MzMyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cultural festival"
+    },
+    {
+      "id": "2",
+      "description": "Students collaborating during a hackathon.",
+      "imageUrl": "https://images.unsplash.com/photo-1591062182630-2cae7655ed1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYWNrYXRob24lMjBzdHVkZW50c3xlbnwwfHx8fDE3NjEwNTEzNDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hackathon students"
+    },
+    {
+      "id": "3",
+      "description": "A lively college party with music and dancing.",
+      "imageUrl": "https://images.unsplash.com/photo-1677193116600-e6bd53bf8022?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29sbGVnZSUyMHBhcnR5fGVufDB8fHx8MTc2MTE1MzMyOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "college party"
+    },
+    {
+      "id": "4",
+      "description": "A tech conference with a speaker on stage.",
+      "imageUrl": "https://images.unsplash.com/photo-1700936655679-83f4b37d7d74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0ZWNoJTIwY29uZmVyZW5jZXxlbnwwfHx8fDE3NjExMzEwMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech conference"
+    },
+    {
+      "id": "5",
+      "description": "A person crossing the finish line in a marathon.",
+      "imageUrl": "https://images.unsplash.com/photo-1719299180466-cd7f9c8771d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzcG9ydHMlMjBtYXJhdGhvbnxlbnwwfHx8fDE3NjExNTMzMjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sports marathon"
+    },
+    {
+      "id": "6",
+      "description": "A workshop with people engaged in learning.",
+      "imageUrl": "https://images.unsplash.com/photo-1596496356956-bbc213c96988?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b3Jrc2hvcCUyMGxlYXJuaW5nfGVufDB8fHx8MTc2MTA2ODI4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "workshop learning"
+    },
+    {
+      "id": "7",
+      "description": "An AI discussing with a human.",
+      "imageUrl": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxBSSUyMHJvYm90fGVufDB8fHx8MTc2MTA3OTA2Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "AI robot"
+    },
+    {
+      "id": "8",
+      "description": "A team of gamers competing in an esports tournament.",
+      "imageUrl": "https://images.unsplash.com/photo-1759701546668-4fe410517caf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlc3BvcnRzJTIwZ2FtaW5nfGVufDB8fHx8MTc2MTEyNjQyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "esports gaming"
+    }
+  ]
+}
