@@ -415,14 +415,19 @@ export default function CreateClient() {
                         />
 
                         <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-8 border-t-4 border-black">
-                             <Button type="button" variant="outline" onClick={() => handleFormSubmit(form.getValues(), 'draft')} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                             <Button type="button" variant="outline" onClick={async () => {
+                                 const isValid = await form.trigger();
+                                 if (isValid) {
+                                     handleFormSubmit(form.getValues(), 'draft');
+                                 }
+                             }} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                                 Save as Draft
                             </Button>
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button type="button" variant="outline" size="icon" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-14 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all hidden sm:flex">
-                                        <Eye className="h-6 w-6" strokeWidth={3} />
-                                        <span className="sr-only">Preview</span>
+                                    <Button type="button" variant="outline" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-full sm:w-14 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all flex items-center justify-center">
+                                        <Eye className="h-6 w-6 sm:mr-0 mr-2" strokeWidth={3} />
+                                        <span className="sm:sr-only font-black uppercase">Preview</span>
                                     </Button>
                                 </DialogTrigger>
                                 {previewEvent && (

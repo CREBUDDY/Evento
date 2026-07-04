@@ -4,14 +4,15 @@ import { redirect } from "next/navigation";
 import EditClient from "./EditClient";
 
 export default async function EditEventPage({ params }: { params: { id: string } }) {
+  const { id } = await Promise.resolve(params);
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login?redirect=/creato/' + params.id + '/edit');
+    redirect('/login?redirect=/creato/' + id + '/edit');
   }
 
-  const event = await getEventById(params.id);
+  const event = await getEventById(id);
 
   if (!event) {
     return (

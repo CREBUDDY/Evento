@@ -7,14 +7,15 @@ import AttendeesClient from "./AttendeesClient";
 export const dynamic = 'force-dynamic';
 
 export default async function EventAttendeesPage({ params }: { params: { id: string } }) {
+  const { id } = await Promise.resolve(params);
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login?redirect=/dashboard/organizer/events/' + params.id + '/attendees');
+    redirect('/login?redirect=/dashboard/organizer/events/' + id + '/attendees');
   }
 
-  const event = await getEventById(params.id);
+  const event = await getEventById(id);
 
   if (!event || event.organizerId !== user.id) {
     return (
@@ -25,7 +26,7 @@ export default async function EventAttendeesPage({ params }: { params: { id: str
     );
   }
 
-  const attendees = await getEventAttendees(params.id, user.id);
+  const attendees = await getEventAttendees(id, user.id);
 
   return (
     <AttendeesClient event={event as any} initialAttendees={attendees as any} />

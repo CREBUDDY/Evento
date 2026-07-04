@@ -61,6 +61,21 @@ export async function getRelatedEvents(category: string, excludeId: string) {
 
 export async function createEvent(data: any) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user && user.id === data.organizerId) {
+      await prisma.user.upsert({
+        where: { id: user.id },
+        update: {},
+        create: {
+          id: user.id,
+          displayName: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Organizer',
+          email: user.email,
+        }
+      });
+    }
+
     const event = await prisma.event.create({
       data: {
         title: data.title,
