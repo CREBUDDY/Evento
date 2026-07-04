@@ -10,6 +10,7 @@ import { getEventById, getRelatedEvents, checkIsAttendee } from '@/actions/event
 import { createClient } from '@/lib/supabase/server';
 import JoinButton from './JoinButton';
 import ShareButton from './ShareButton';
+import { QRCodeSVG } from 'qrcode.react';
 
 export const revalidate = 0; // Ensures data is fresh
 
@@ -206,9 +207,18 @@ export default async function EventDetailPage({ params }: { params: { id: string
                             <div className="absolute -left-4 top-0 -translate-y-1/2 w-8 h-8 bg-brutalBg rounded-full border-4 border-black border-l-0 border-t-0 -rotate-45"></div>
                             <div className="absolute -right-4 top-0 -translate-y-1/2 w-8 h-8 bg-brutalBg rounded-full border-4 border-black border-r-0 border-t-0 rotate-45"></div>
 
-                            {/* Fake Barcode */}
-                            <div className="flex h-16 w-full justify-center gap-[2px] opacity-80 mb-8 px-4">
-                                <div className="w-1 bg-black"></div><div className="w-2 bg-black"></div><div className="w-1 bg-black"></div><div className="w-3 bg-black"></div><div className="w-1 bg-black"></div><div className="w-4 bg-black"></div><div className="w-1 bg-black"></div><div className="w-2 bg-black"></div><div className="w-1 bg-black"></div><div className="w-2 bg-black"></div><div className="w-3 bg-black"></div><div className="w-1 bg-black"></div><div className="w-2 bg-black"></div><div className="w-1 bg-black"></div><div className="w-4 bg-black"></div><div className="w-2 bg-black"></div><div className="w-1 bg-black"></div><div className="w-2 bg-black"></div><div className="w-3 bg-black"></div>
+                            {/* Event QR Code */}
+                            <div className="flex flex-col items-center justify-center w-full mb-8">
+                                <div className="bg-white p-2 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform hover:scale-105">
+                                    <QRCodeSVG 
+                                        value={`https://evento-phi-seven.vercel.app/events/${event.id}`} 
+                                        size={120} 
+                                        bgColor={"#ffffff"}
+                                        fgColor={"#000000"}
+                                        level={"Q"}
+                                    />
+                                </div>
+                                <p className="text-xs font-bold uppercase mt-3 tracking-widest text-gray-600">Scan for Event Details</p>
                             </div>
                             
                             <div className="w-full space-y-4">
