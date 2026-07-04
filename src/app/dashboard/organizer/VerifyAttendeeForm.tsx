@@ -49,8 +49,8 @@ export default function VerifyAttendeeForm({ events, organizerId }: { events: Ev
                 <CardTitle className="font-black uppercase text-xl">Verify Attendee</CardTitle>
                 <CardDescription className="font-bold text-black">Enter the code from the attendee's ticket to check them in.</CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col md:flex-row items-center gap-4 pt-6">
-                <div className="grid w-full md:w-1/3 items-center gap-1.5">
+            <CardContent className="flex flex-col md:flex-row items-center gap-4 pt-6 min-w-0">
+                <div className="grid w-full md:w-1/3 items-center gap-1.5 min-w-0">
                      <select
                         value={selectedEventId || ''}
                         onChange={(e) => setSelectedEventId(e.target.value)}
@@ -62,7 +62,7 @@ export default function VerifyAttendeeForm({ events, organizerId }: { events: Ev
                         ))}
                     </select>
                 </div>
-                <div className="relative w-full md:flex-1">
+                <div className="relative w-full md:flex-1 min-w-0">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" strokeWidth={3} />
                     <Input 
                         placeholder="Ticket Code (e.g., clxk3...)" 

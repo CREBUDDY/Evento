@@ -88,7 +88,7 @@ export default function DashboardLayoutClient({
         <aside className="-ml-4 hidden md:block">
           <SidebarNav />
         </aside>
-        <main className="w-full">
+        <main className="w-full min-w-0">
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant="outline" size="icon" className="md:hidden mb-4">
