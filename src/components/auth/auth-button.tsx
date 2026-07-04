@@ -67,13 +67,13 @@ export default function AuthButton() {
     return (
         <Link 
             href="/login"
-            className="relative group flex items-center gap-2 px-6 py-2 rounded-none border-4 border-black text-black font-black uppercase tracking-wider bg-brutalGreen shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none"
+            className="relative group flex items-center gap-1 md:gap-2 px-3 py-1.5 md:px-6 md:py-2 rounded-none border-4 border-black text-black font-black uppercase tracking-wider bg-brutalGreen shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal transition-all hover:translate-x-[2px] md:hover:translate-x-[4px] hover:translate-y-[2px] md:hover:translate-y-[4px] hover:shadow-none text-xs md:text-base"
         >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center gap-1 md:gap-2">
                 Sign In
                 <div className="transition-transform duration-300 group-hover:translate-x-1">
-                    <ArrowRight className="w-5 h-5 text-black group-hover:hidden transition-all" />
-                    <Shield className="w-5 h-5 text-black hidden group-hover:inline-block transition-all" />
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-black group-hover:hidden transition-all" />
+                    <Shield className="w-4 h-4 md:w-5 md:h-5 text-black hidden group-hover:inline-block transition-all" />
                 </div>
             </span>
         </Link>

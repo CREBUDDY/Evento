@@ -15,8 +15,8 @@ const navLinks = [
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b-4 border-black bg-brutalBg text-black">
-      <div className="container flex h-16 items-center">
-        <div className="mr-4 hidden md:flex">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="hidden md:flex items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Logo />
           </Link>
@@ -34,10 +34,10 @@ export default function Header() {
         </div>
 
         {/* Mobile Nav */}
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center md:hidden gap-2">
            <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="mr-2">
+              <Button variant="ghost" size="icon" className="shrink-0">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
@@ -63,12 +63,12 @@ export default function Header() {
               </div>
             </SheetContent>
           </Sheet>
-           <Link href="/" className="flex items-center space-x-2">
-             <span className="md:hidden"><Logo /></span>
+           <Link href="/" className="flex items-center shrink-0">
+             <span className="md:hidden"><Logo className="text-2xl" /></span>
           </Link>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex items-center shrink-0">
           <AuthButton />
         </div>
       </div>

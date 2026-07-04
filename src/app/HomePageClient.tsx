@@ -80,17 +80,17 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
         <InteractiveBlock initialColorClass="bg-brutalRed" className="absolute bottom-[10%] right-[20%] w-[40px] h-[40px] z-0" />
 
         <div className="container relative z-10 flex flex-col items-start text-left">
-           <h1 className="font-display font-black text-6xl sm:text-7xl md:text-[9rem] leading-[0.85] tracking-tighter text-black uppercase mb-6 drop-shadow-sm">
+           <h1 className="font-display font-black text-5xl sm:text-7xl md:text-[9rem] leading-[0.85] tracking-tighter text-black uppercase mb-6 drop-shadow-sm break-words hyphens-auto w-full">
             evento.
           </h1>
-          <p className="max-w-xl text-xl md:text-2xl font-bold text-black border-l-4 border-black pl-4 mb-10 bg-white/50 backdrop-blur-sm p-4">
+          <p className="max-w-xl text-lg md:text-2xl font-bold text-black border-l-4 border-black pl-4 mb-10 bg-white/50 backdrop-blur-sm p-4 w-full">
             The ultimate platform for college societies and organizations to create, manage, and experience events in real-time.
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
-             <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-10 rounded-none bg-brutalRed hover:bg-brutalRed text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
+          <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto pr-2 pb-2">
+             <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-6 sm:px-10 rounded-none bg-brutalRed hover:bg-brutalRed text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
                 <Link href="/explore">Explore Events</Link>
              </Button>
-             <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-10 rounded-none bg-brutalYellow hover:bg-brutalYellow text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
+             <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-6 sm:px-10 rounded-none bg-brutalYellow hover:bg-brutalYellow text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
                 <Link href="/creato">Create Event</Link>
              </Button>
           </div>
@@ -144,11 +144,11 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
           </div>
           
           <Tabs defaultValue="all" className="w-full">
-            <div className="mb-12 border-b-4 border-black pb-4">
-              <TabsList className="bg-transparent space-x-4 p-0">
-                <TabsTrigger value="all" className="rounded-none border-4 border-black bg-white px-8 py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-brutal transition-all">All</TabsTrigger>
-                <TabsTrigger value="free" className="rounded-none border-4 border-black bg-white px-8 py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-brutal transition-all">Free</TabsTrigger>
-                <TabsTrigger value="paid" className="rounded-none border-4 border-black bg-white px-8 py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-brutal transition-all">Paid</TabsTrigger>
+            <div className="mb-12 border-b-4 border-black pb-4 overflow-x-auto">
+              <TabsList className="bg-transparent flex w-max space-x-2 sm:space-x-4 p-0">
+                <TabsTrigger value="all" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">All</TabsTrigger>
+                <TabsTrigger value="free" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">Free</TabsTrigger>
+                <TabsTrigger value="paid" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">Paid</TabsTrigger>
               </TabsList>
             </div>
             
