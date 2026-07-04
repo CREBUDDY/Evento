@@ -1,16 +1,21 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { PlusCircle, Calendar, Users, DollarSign, MoreHorizontal } from "lucide-react";
 import { format } from "date-fns";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import VerifyAttendeeForm from "./VerifyAttendeeForm";
-import CancelEventButton from "./CancelEventButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const revalidate = 0;
 
@@ -22,27 +27,31 @@ export default async function OrganizerDashboard() {
     redirect('/login');
   }
 
-  // Fetch events created by this organizer
   const organizerEvents = await prisma.event.findMany({
     where: { organizerId: user.id },
     include: {
       _count: {
         select: { attendees: true }
+      },
+      attendees: {
+        select: {
+          status: true
+        }
       }
     },
     orderBy: { dateTime: 'desc' }
   });
 
-  const activeEvents = organizerEvents.filter(event => event.status !== 'cancelled');
-
-  const totalAttendees = activeEvents.reduce((sum, event) => sum + event._count.attendees, 0);
-  const totalRevenue = activeEvents.reduce((sum, event) => sum + (event._count.attendees * event.price), 0);
+  const totalEvents = organizerEvents.length;
+  const totalAttendees = organizerEvents.reduce((sum, event) => sum + event._count.attendees, 0);
+  const totalRevenue = organizerEvents.reduce((sum, event) => sum + (event._count.attendees * event.price), 0);
+  const pendingApprovals = organizerEvents.reduce((sum, event) => sum + event.attendees.filter(a => a.status === 'pending_registration').length, 0);
 
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-brutalRed pl-6">
         <div>
-          <h1 className="font-headline text-3xl font-black uppercase tracking-tighter sm:text-4xl text-black">Organizer Dashboard</h1>
+          <h1 className="font-headline text-3xl font-black uppercase tracking-tighter sm:text-5xl text-black">Organizer Dashboard</h1>
           <p className="text-black font-bold text-lg mt-2">Here's an overview of your events.</p>
         </div>
         <Button asChild className="w-full md:w-auto rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
@@ -52,40 +61,44 @@ export default async function OrganizerDashboard() {
           </Link>
         </Button>
       </div>
-      
-      {activeEvents.length > 0 && <VerifyAttendeeForm events={activeEvents as any} organizerId={user.id} />}
+
+      <VerifyAttendeeForm events={organizerEvents} organizerId={user.id} />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="rounded-none border-4 border-black bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Events</CardTitle>
+            <Calendar className="h-4 w-4 text-black" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-black">{activeEvents.length}</div>
+            <div className="text-4xl font-black">{totalEvents}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Attendees</CardTitle>
+            <Users className="h-4 w-4 text-black" />
           </CardHeader>
           <CardContent>
-             <div className="text-4xl font-black">{totalAttendees}</div>
+            <div className="text-4xl font-black">{totalAttendees}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-black" />
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-black">₹{totalRevenue.toLocaleString()}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Pending Approvals</CardTitle>
+            <Users className="h-4 w-4 text-black" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-black">0</div>
+            <div className="text-4xl font-black">{pendingApprovals}</div>
           </CardContent>
         </Card>
       </div>
@@ -114,7 +127,14 @@ export default async function OrganizerDashboard() {
                 <TableRow key={event.id} className="border-b-2 border-black hover:bg-brutalYellow transition-colors">
                   <TableCell className="font-black text-lg">{event.title}</TableCell>
                   <TableCell>
-                    <Badge variant={event.status === 'published' ? 'secondary' : 'outline'} className="rounded-none border-2 border-black font-black uppercase text-xs">{event.status}</Badge>
+                    <Badge variant="outline" className={`rounded-none border-2 border-black font-black uppercase text-xs ${
+                      event.status === 'published' ? 'bg-brutalBlue text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 
+                      event.status === 'completed' ? 'bg-brutalGreen text-black -rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 
+                      event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-dashed' : 
+                      'bg-white text-gray-500'
+                    }`}>
+                      {event.status}
+                    </Badge>
                   </TableCell>
                   <TableCell className="hidden md:table-cell font-bold">{format(new Date(event.dateTime), "MMM d, yyyy")}</TableCell>
                   <TableCell className="text-right font-bold">{event._count.attendees} / {event.capacity}</TableCell>
@@ -127,19 +147,23 @@ export default async function OrganizerDashboard() {
                           <span className="sr-only">Toggle menu</span>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0">
+                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0 bg-white">
                         <DropdownMenuLabel className="font-black uppercase bg-brutalBg border-b-2 border-black text-black">Actions</DropdownMenuLabel>
-                        <DropdownMenuItem asChild className="rounded-none focus:bg-brutalYellow font-bold cursor-pointer">
-                            <Link href={`/creato/${event.id}/edit`}>Edit</Link>
+                        <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalYellow focus:text-black font-bold cursor-pointer">
+                            <Link href={`/dashboard/organizer/events/${event.id}`}>Manage Event Dashboard</Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="rounded-none focus:bg-brutalBlue font-bold cursor-pointer">
+                        <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalBlue focus:text-black font-bold cursor-pointer">
+                            <Link href={`/dashboard/organizer/events/${event.id}/approvals`}>Approvals</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalGreen focus:text-black font-bold cursor-pointer">
                             <Link href={`/dashboard/organizer/events/${event.id}/attendees`}>View Attendees</Link>
                         </DropdownMenuItem>
-                        {event.status !== 'cancelled' && (
-                          <div className="px-2 pb-2">
-                              <CancelEventButton eventId={event.id} organizerId={user.id} />
-                          </div>
-                        )}
+                        <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalYellow focus:text-black font-bold cursor-pointer">
+                            <Link href={`/dashboard/organizer/events/${event.id}/reports`}>Reports & Analytics</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalBlue focus:text-black font-bold cursor-pointer border-t-2 border-black">
+                            <Link href={`/creato/${event.id}/edit`}>Edit Details</Link>
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

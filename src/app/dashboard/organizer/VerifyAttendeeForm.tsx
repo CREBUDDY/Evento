@@ -33,7 +33,7 @@ export default function VerifyAttendeeForm({ events, organizerId }: { events: Ev
             return;
         }
         setIsLoading(true);
-        const result = await verifyAttendee(selectedEventId, verificationCode.trim(), organizerId);
+        const result = await verifyAttendee(selectedEventId, verificationCode.trim());
         if (result.success) {
             toast({
                 title: "Success",

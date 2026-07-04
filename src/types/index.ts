@@ -18,6 +18,7 @@ export type Event = {
   imageUrl: string;
   organizerId: string;
   status: EventStatus;
+  requiresApproval?: boolean;
   
   // These fields are often denormalized for easy display
   // but are not part of the core event document.

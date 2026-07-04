@@ -1,6 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export async function getJoinedEvents(userId: string) {
   try {
@@ -46,6 +48,7 @@ export async function getJoinedEvents(userId: string) {
         id: a.id,
         verificationCode: a.verificationCode,
         verified: a.verified,
+        status: a.status,
         createdAt: a.createdAt
       }
     }));
@@ -80,18 +83,32 @@ export async function getEventAttendees(eventId: string, organizerId: string) {
   }
 }
 
-import { revalidatePath } from "next/cache";
-
-export async function removeAttendee(attendeeId: string, eventId: string) {
+export async function deleteTicket(attendeeId: string) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const attendee = await prisma.attendee.findUnique({
+      where: { id: attendeeId }
+    });
+
+    if (!attendee) throw new Error("Ticket not found");
+    // Verify ownership or organizer status. Here we allow the ticket owner to delete.
+    if (attendee.userId !== user.id) {
+       // Check if organizer
+       const event = await prisma.event.findUnique({ where: { id: attendee.eventId }});
+       if (event?.organizerId !== user.id) throw new Error("Unauthorized");
+    }
+
     await prisma.attendee.delete({
       where: { id: attendeeId }
     });
-    revalidatePath(`/dashboard/organizer/events/${eventId}/attendees`);
-    revalidatePath('/dashboard/organizer');
+    
+    revalidatePath('/dashboard/attendee');
     return { success: true };
-  } catch (error) {
-    console.error("Failed to remove attendee", error);
-    return { success: false, error: "Failed to remove attendee" };
+  } catch (error: any) {
+    console.error("Failed to delete ticket", error);
+    return { success: false, error: error.message || "Failed to delete ticket" };
   }
 }

@@ -89,7 +89,8 @@ export async function createEvent(data: any) {
         targetAudience: data.targetAudience,
         imageUrl: data.imageUrl,
         organizerId: data.organizerId,
-        status: data.status || 'published'
+        status: data.status || 'published',
+        requiresApproval: data.requiresApproval === true
       }
     });
     revalidatePath('/');
@@ -118,7 +119,8 @@ export async function updateEvent(id: string, data: any) {
         price: Number(data.price),
         targetAudience: data.targetAudience,
         imageUrl: data.imageUrl,
-        status: data.status || 'published'
+        status: data.status || 'published',
+        requiresApproval: data.requiresApproval === true
       }
     });
     revalidatePath(`/events/${id}`);
@@ -187,11 +189,14 @@ export async function joinEvent(eventId: string, userId: string) {
       // 3. Create Attendee record with a shorter verification code
       // We generate an 8-character alphanumeric string.
       const shortCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+      const initialStatus = event.requiresApproval ? 'pending_registration' : 'approved';
+      
       const attendee = await tx.attendee.create({
         data: {
           userId,
           eventId,
-          verificationCode: shortCode
+          verificationCode: shortCode,
+          status: initialStatus
         }
       });
 

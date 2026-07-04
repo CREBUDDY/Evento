@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Switch } from "@/components/ui/switch";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -65,6 +66,7 @@ const eventFormSchema = z.object({
   capacity: z.coerce.number().int().positive("Capacity must be a positive number."),
   price: z.coerce.number().min(0, "Price cannot be negative."),
   imageUrl: z.string().url("Please enter a valid URL."),
+  requiresApproval: z.boolean().default(false),
 });
 
 type EventFormValues = z.infer<typeof eventFormSchema>;
@@ -90,6 +92,7 @@ export default function CreateClient() {
             price: 0,
             dateTime: new Date(),
             eventTime: "18:00",
+            requiresApproval: false,
         },
     });
 
@@ -410,6 +413,30 @@ export default function CreateClient() {
                                     Link to the official banner or poster for your event.
                                 </FormDescription>
                                 <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                         <FormField
+                            control={form.control}
+                            name="requiresApproval"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-none border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
+                                    <div className="space-y-0.5">
+                                        <FormLabel className="text-base font-black uppercase text-black">
+                                            Require Manual Approval
+                                        </FormLabel>
+                                        <FormDescription className="font-bold text-black border-l-4 border-black pl-2">
+                                            Organizers must manually approve attendees before tickets are generated.
+                                        </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            className="data-[state=checked]:bg-black data-[state=unchecked]:bg-gray-400"
+                                        />
+                                    </FormControl>
                                 </FormItem>
                             )}
                         />

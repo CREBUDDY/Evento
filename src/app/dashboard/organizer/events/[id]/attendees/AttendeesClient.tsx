@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { removeAttendee } from "@/actions/attendee";
+import { deleteTicket } from "@/actions/attendee";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Search, Trash2, UserX } from "lucide-react";
+import { ArrowLeft, Search, UserX } from "lucide-react";
 import Link from "next/link";
 import {
   AlertDialog,
@@ -28,7 +28,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
   const { toast } = useToast();
 
   const handleRemove = async (attendeeId: string) => {
-    const result = await removeAttendee(attendeeId, event.id);
+    const result = await deleteTicket(attendeeId);
     if (result.success) {
       setAttendees(attendees.filter(a => a.id !== attendeeId));
       toast({

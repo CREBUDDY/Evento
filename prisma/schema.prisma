@@ -39,6 +39,7 @@ model Event {
   targetAudience String
   imageUrl       String?
   status         String      @default("draft") // published, draft, cancelled
+  requiresApproval Boolean   @default(false)
   
   organizerId    String
   organizer      User        @relation("Organizer", fields: [organizerId], references: [id])
@@ -54,6 +55,7 @@ model Attendee {
   eventId          String
   verificationCode String   @unique @default(cuid())
   verified         Boolean  @default(false)
+  status           String   @default("pending_registration") // pending_registration, approved, checked_in, absent, rejected
   
   user             User     @relation(fields: [userId], references: [id])
   event            Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
