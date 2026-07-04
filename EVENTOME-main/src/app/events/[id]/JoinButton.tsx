@@ -14,9 +14,10 @@ type JoinButtonProps = {
   isFull: boolean;
   price: number;
   userId?: string;
+  isOrganizer?: boolean;
 };
 
-export default function JoinButton({ eventId, isLoggedIn, hasJoined, isFull, price, userId }: JoinButtonProps) {
+export default function JoinButton({ eventId, isLoggedIn, hasJoined, isFull, price, userId, isOrganizer }: JoinButtonProps) {
   const [isJoining, setIsJoining] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -53,16 +54,18 @@ export default function JoinButton({ eventId, isLoggedIn, hasJoined, isFull, pri
       size="lg" 
       className="w-full font-black uppercase text-lg h-16 rounded-none border-4 border-black bg-brutalRed text-black hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
       onClick={handleJoinClick} 
-      disabled={isJoining || hasJoined || (isFull && !hasJoined)}
+      disabled={isJoining || hasJoined || (isFull && !hasJoined) || isOrganizer}
     >
       <Ticket className="mr-2 h-6 w-6" strokeWidth={3}/>
-      {hasJoined 
-        ? "Already Joined" 
-        : isJoining 
-          ? 'Joining...' 
-          : isFull
-            ? 'Event Full'
-            : (price > 0 ? `Buy Ticket (₹${price})` : 'Join Event Free')
+      {isOrganizer
+        ? "You are the organizer"
+        : hasJoined 
+          ? "Already Joined" 
+          : isJoining 
+            ? 'Joining...' 
+            : isFull
+              ? 'Event Full'
+              : (price > 0 ? `Buy Ticket (₹${price})` : 'Join Event Free')
       }
     </Button>
   );

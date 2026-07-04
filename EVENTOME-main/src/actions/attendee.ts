@@ -5,7 +5,14 @@ import { prisma } from "@/lib/prisma";
 export async function getJoinedEvents(userId: string) {
   try {
     const attendees = await prisma.attendee.findMany({
-      where: { userId },
+      where: { 
+        userId,
+        event: {
+          status: {
+            not: 'draft' // Show both published and cancelled events so users know what happened
+          }
+        }
+      },
       include: {
         event: {
           include: {

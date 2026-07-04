@@ -144,6 +144,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                     hasJoined={hasJoined}
                     isFull={isFull}
                     price={event.price}
+                    isOrganizer={user?.id === event.organizerId}
                  />
                 <p className="text-center text-sm font-bold text-black border-2 border-black bg-brutalYellow py-1 uppercase mt-2">Secure your spot now!</p>
             </div>

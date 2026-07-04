@@ -37,8 +37,13 @@ export default async function AttendeeDashboard() {
           <Card key={event.id} className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row overflow-hidden text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
             <div className="p-6 flex-1 flex flex-col min-w-0">
               <CardHeader className="p-0 mb-4">
-                <Badge variant="outline" className="w-fit mb-2 rounded-none border-2 border-black bg-brutalBlue text-black font-black uppercase">{event.category}</Badge>
-                <CardTitle className="hover:bg-brutalYellow transition-colors w-fit text-2xl font-black uppercase tracking-tight">
+                <div className="flex justify-between items-start mb-2">
+                    <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalBlue text-black font-black uppercase">{event.category}</Badge>
+                    {event.status === 'cancelled' && (
+                        <Badge variant="destructive" className="w-fit rounded-none border-2 border-black bg-brutalRed text-black font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">EVENT CANCELLED</Badge>
+                    )}
+                </div>
+                <CardTitle className={`transition-colors w-fit text-2xl font-black uppercase tracking-tight ${event.status === 'cancelled' ? 'line-through opacity-70' : 'hover:bg-brutalYellow'}`}>
                   <Link href={`/events/${event.id}`}>{event.title}</Link>
                 </CardTitle>
                 <CardDescription className="flex items-center gap-2 pt-2 text-black font-bold">
@@ -62,16 +67,24 @@ export default async function AttendeeDashboard() {
                 )}
               </CardContent>
             </div>
-            <div className="p-6 bg-brutalYellow flex flex-col items-center justify-center border-t-4 border-black md:border-t-0 md:border-l-4 border-black shrink-0">
+            <div className={`p-6 flex flex-col items-center justify-center border-t-4 border-black md:border-t-0 md:border-l-4 border-black shrink-0 ${event.status === 'cancelled' ? 'bg-muted' : 'bg-brutalYellow'}`}>
                <div className="flex items-center gap-2 text-black font-black uppercase text-lg border-2 border-black bg-white px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    {event.attendeeInfo?.verified ? <CheckCircle className="h-5 w-5" strokeWidth={3}/> : <Ticket className="h-5 w-5" strokeWidth={3} />}
-                    <span>{event.attendeeInfo?.verified ? 'Verified' : 'Not Verified'}</span>
+                    {event.status === 'cancelled' ? <span className="text-brutalRed">Cancelled</span> : event.attendeeInfo?.verified ? <CheckCircle className="h-5 w-5" strokeWidth={3}/> : <Ticket className="h-5 w-5" strokeWidth={3} />}
+                    {event.status !== 'cancelled' && <span>{event.attendeeInfo?.verified ? 'Verified' : 'Not Verified'}</span>}
                 </div>
                 <p className="text-sm text-black font-bold mt-2 mb-3 bg-white border-2 border-black px-2">{event.price > 0 ? `₹${event.price} (Paid)` : "Free (Confirmed)"}</p>
-              <div className="relative h-32 w-32 rounded-none border-4 border-black overflow-hidden bg-white p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <img src={qrCodeUrl} alt="QR Code" className="w-full h-full object-contain" />
-              </div>
-              <p className="mt-3 text-xs font-black uppercase tracking-wider text-black">Scan for entry</p>
+                {event.status !== 'cancelled' ? (
+                  <>
+                      <div className="relative h-32 w-32 rounded-none border-4 border-black overflow-hidden bg-white p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <img src={qrCodeUrl} alt="QR Code" className="w-full h-full object-contain" />
+                      </div>
+                      <p className="mt-3 text-xs font-black uppercase tracking-wider text-black">Scan for entry</p>
+                  </>
+                ) : (
+                  <div className="h-32 w-32 flex items-center justify-center border-4 border-black bg-gray-200">
+                      <span className="font-black uppercase text-gray-500 rotate-[-15deg]">Invalid</span>
+                  </div>
+                )}
             </div>
           </Card>
         )})}
