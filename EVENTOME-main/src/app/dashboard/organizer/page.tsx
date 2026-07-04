@@ -132,6 +132,9 @@ export default async function OrganizerDashboard() {
                         <DropdownMenuItem asChild className="rounded-none focus:bg-brutalYellow font-bold cursor-pointer">
                             <Link href={`/creato/${event.id}/edit`}>Edit</Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="rounded-none focus:bg-brutalBlue font-bold cursor-pointer">
+                            <Link href={`/dashboard/organizer/events/${event.id}/attendees`}>View Attendees</Link>
+                        </DropdownMenuItem>
                         {event.status !== 'cancelled' && (
                           <div className="px-2 pb-2">
                               <CancelEventButton eventId={event.id} organizerId={user.id} />

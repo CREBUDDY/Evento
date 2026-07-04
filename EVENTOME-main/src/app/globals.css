@@ -98,4 +98,13 @@
     .glow-border {
         animation: glow 2s infinite ease-in-out;
     }
+
+    .brutal-spin {
+        animation: brutalSpin 1s infinite steps(4);
+    }
+    
+    @keyframes brutalSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 }

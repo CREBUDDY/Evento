@@ -89,37 +89,37 @@ export default function AuthButton() {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
+      <DropdownMenuContent className="w-56 rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-2" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal p-2">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">User</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="text-sm font-black uppercase text-black leading-none">User</p>
+            <p className="text-xs leading-none text-black font-bold">
               {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuSeparator className="bg-black h-1 my-2" />
+        <DropdownMenuItem asChild className="font-black uppercase text-black hover:bg-brutalYellow focus:bg-brutalYellow rounded-none cursor-pointer p-3 border-2 border-transparent focus:border-black transition-all">
           <Link href="/profile">
-            <User className="mr-2 h-4 w-4" />
+            <User className="mr-2 h-5 w-5" strokeWidth={3} />
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="font-black uppercase text-black hover:bg-brutalBlue focus:bg-brutalBlue rounded-none cursor-pointer p-3 border-2 border-transparent focus:border-black transition-all mt-1">
           <Link href="/dashboard">
-            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <LayoutDashboard className="mr-2 h-5 w-5" strokeWidth={3} />
             <span>Dashboard</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="font-black uppercase text-black hover:bg-brutalGreen focus:bg-brutalGreen rounded-none cursor-pointer p-3 border-2 border-transparent focus:border-black transition-all mt-1">
           <Link href="/dashboard/attendee">
-            <Ticket className="mr-2 h-4 w-4" />
+            <Ticket className="mr-2 h-5 w-5" strokeWidth={3} />
             <span>My Tickets</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
-          <LogOut className="mr-2 h-4 w-4" />
+        <DropdownMenuSeparator className="bg-black h-1 my-2" />
+        <DropdownMenuItem onClick={handleSignOut} className="font-black uppercase text-black hover:bg-brutalRed focus:bg-brutalRed rounded-none cursor-pointer p-3 border-2 border-transparent focus:border-black transition-all">
+          <LogOut className="mr-2 h-5 w-5" strokeWidth={3} />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

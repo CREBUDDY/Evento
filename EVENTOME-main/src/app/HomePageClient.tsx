@@ -88,7 +88,7 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
              <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-10 rounded-none bg-brutalRed hover:bg-brutalRed text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
-                <Link href="#events">Explore Events</Link>
+                <Link href="/explore">Explore Events</Link>
              </Button>
              <Button size="lg" className="w-full sm:w-auto text-xl h-16 px-10 rounded-none bg-brutalYellow hover:bg-brutalYellow text-black border-4 border-black shadow-brutal transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none uppercase font-black" asChild>
                 <Link href="/creato">Create Event</Link>
@@ -134,9 +134,11 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black h-5 w-5 font-black" />
                 <Input placeholder="Search events..." className="pl-12 h-14 rounded-none border-4 border-black bg-brutalBg text-black font-bold focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" />
               </div>
-              <Button className="h-14 rounded-none border-4 border-black bg-brutalPurple hover:bg-brutalPurple text-black shadow-brutal hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all hidden sm:flex font-black uppercase">
-                <Filter className="mr-2 h-5 w-5" />
-                Filters
+              <Button asChild className="h-14 rounded-none border-4 border-black bg-brutalPurple hover:bg-brutalPurple text-black shadow-brutal hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all hidden sm:flex font-black uppercase">
+                <Link href="/explore">
+                    <Filter className="mr-2 h-5 w-5" />
+                    Filters
+                </Link>
               </Button>
             </div>
           </div>

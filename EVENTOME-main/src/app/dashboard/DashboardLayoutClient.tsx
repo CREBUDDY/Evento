@@ -8,7 +8,7 @@ import { useUser } from "@/firebase";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import LoaderBox from "@/components/loader-box";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const sidebarNavItems = [
@@ -76,23 +76,8 @@ export default function DashboardLayoutClient({
 
   if (isUserLoading || !user) {
     return (
-        <div className="container min-h-screen">
-          <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[250px_1fr] gap-12 py-12">
-            <aside className="-ml-4 hidden md:block">
-              <nav className="grid items-start gap-2 px-2 text-sm font-medium">
-                {sidebarNavItems.map((item) => (
-                  <Skeleton key={item.href} className="h-10 w-full" />
-                ))}
-              </nav>
-            </aside>
-            <main className="w-full space-y-8">
-                <Skeleton className="h-10 w-1/2" />
-                <div className="grid gap-6 md:grid-cols-2">
-                    <Skeleton className="h-40 w-full" />
-                    <Skeleton className="h-40 w-full" />
-                </div>
-            </main>
-          </div>
+        <div className="flex h-screen items-center justify-center bg-brutalBg">
+            <LoaderBox />
         </div>
     );
   }

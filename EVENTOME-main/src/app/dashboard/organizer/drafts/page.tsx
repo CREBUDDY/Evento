@@ -52,14 +52,6 @@ export default function DraftsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading && Array.from({length: 3}).map((_, i) => (
-                <TableRow key={i}>
-                    <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                    <TableCell><Skeleton className="h-5 w-20" /></TableCell>
-                    <TableCell className="hidden md:table-cell"><Skeleton className="h-5 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-8 w-8 rounded-md ml-auto" /></TableCell>
-                </TableRow>
-              ))}
               {draftEvents && draftEvents.map((event) => (
                 <TableRow key={event.id} className="border-b-2 border-black hover:bg-brutalYellow transition-colors">
                   <TableCell className="font-black text-lg">{event.title}</TableCell>

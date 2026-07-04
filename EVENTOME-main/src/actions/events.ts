@@ -86,9 +86,57 @@ export async function createEvent(data: any) {
   }
 }
 
+import { createClient } from "@/lib/supabase/server";
+
+export async function updateEvent(id: string, data: any) {
+  try {
+    const event = await prisma.event.update({
+      where: { id },
+      data: {
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        dateTime: data.dateTime,
+        venue: data.venue,
+        venueAddress: data.venueAddress,
+        capacity: Number(data.capacity),
+        price: Number(data.price),
+        targetAudience: data.targetAudience,
+        imageUrl: data.imageUrl,
+        status: data.status || 'published'
+      }
+    });
+    revalidatePath(`/events/${id}`);
+    revalidatePath('/dashboard/organizer');
+    revalidatePath('/dashboard/organizer/drafts');
+    return event;
+  } catch (error) {
+    console.error("Failed to update event", error);
+    throw error;
+  }
+}
+
 export async function joinEvent(eventId: string, userId: string) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user || user.id !== userId) {
+      throw new Error("Unauthorized or user mismatch");
+    }
+
     const result = await prisma.$transaction(async (tx) => {
+      // 0. Ensure user exists in Prisma DB to prevent foreign key errors
+      await tx.user.upsert({
+        where: { id: userId },
+        update: {},
+        create: {
+          id: userId,
+          displayName: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Attendee',
+          email: user.email,
+        }
+      });
+
       // 1. Fetch event and check capacity
       const event = await tx.event.findUnique({
         where: { id: eventId },

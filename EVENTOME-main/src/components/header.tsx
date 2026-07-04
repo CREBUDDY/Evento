@@ -7,7 +7,7 @@ import AuthButton from './auth/auth-button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 
 const navLinks = [
-  { href: '/#events', label: 'Events' },
+  { href: '/explore', label: 'Events' },
   { href: '/creato', label: 'Create Event' },
   { href: '/dashboard', label: 'Dashboard' },
 ];

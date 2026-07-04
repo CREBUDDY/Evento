@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from '@/firebase';
 import type { Event } from '@/types';
-import { Skeleton } from '@/components/ui/skeleton';
+import LoaderBox from '@/components/loader-box';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -27,15 +27,8 @@ export default function EventAnalyticsPage() {
 
   if (isEventLoading || isUserLoading) {
     return (
-        <div className="space-y-8">
-            <Skeleton className="h-10 w-48"/>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Skeleton className="h-32 w-full"/>
-                <Skeleton className="h-32 w-full"/>
-                <Skeleton className="h-32 w-full"/>
-                <Skeleton className="h-32 w-full"/>
-            </div>
-            <Skeleton className="h-64 w-full"/>
+        <div className="flex h-[50vh] items-center justify-center bg-brutalBg">
+            <LoaderBox />
         </div>
     );
   }
