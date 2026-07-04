@@ -56,7 +56,7 @@ export default async function OrganizerDashboard() {
       {activeEvents.length > 0 && <VerifyAttendeeForm events={activeEvents as any} organizerId={user.id} />}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="rounded-none border-4 border-black bg-brutalBlue shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Events</CardTitle>
           </CardHeader>
@@ -64,7 +64,7 @@ export default async function OrganizerDashboard() {
             <div className="text-4xl font-black">{activeEvents.length}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-brutalYellow shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Attendees</CardTitle>
           </CardHeader>
@@ -72,7 +72,7 @@ export default async function OrganizerDashboard() {
              <div className="text-4xl font-black">{totalAttendees}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Total Revenue</CardTitle>
           </CardHeader>
@@ -80,7 +80,7 @@ export default async function OrganizerDashboard() {
             <div className="text-4xl font-black">₹{totalRevenue.toLocaleString()}</div>
           </CardContent>
         </Card>
-        <Card className="rounded-none border-4 border-black bg-white shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-black uppercase tracking-wider">Pending Approvals</CardTitle>
           </CardHeader>
@@ -90,7 +90,7 @@ export default async function OrganizerDashboard() {
         </Card>
       </div>
 
-      <Card className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
         <CardHeader className="border-b-4 border-black pb-4">
           <CardTitle className="font-black uppercase text-2xl">My Events</CardTitle>
           <CardDescription className="font-bold text-black">A list of events you are hosting.</CardDescription>

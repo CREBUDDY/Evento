@@ -5,7 +5,7 @@ import InteractiveBlock from "./interactive-block";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t-4 border-black bg-brutalBg relative overflow-hidden">
+    <footer className="mt-auto border-t-8 border-black bg-brutalYellow relative overflow-hidden">
         {/* Wireframe Grid Background */}
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" 
              style={{

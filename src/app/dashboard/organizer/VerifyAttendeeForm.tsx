@@ -44,7 +44,7 @@ export default function VerifyAttendeeForm({ events, organizerId }: { events: Ev
     };
 
     return (
-        <Card className="rounded-none border-4 border-black bg-white shadow-brutal text-black">
+        <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
             <CardHeader className="border-b-4 border-black pb-4">
                 <CardTitle className="font-black uppercase text-xl">Verify Attendee</CardTitle>
                 <CardDescription className="font-bold text-black">Enter the code from the attendee's ticket to check them in.</CardDescription>
