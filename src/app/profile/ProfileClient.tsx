@@ -66,21 +66,32 @@ export default function ProfileClient() {
     async function loadProfile() {
       if (!user) return;
       
-      const remoteProfile = await getUserProfile(user.id);
-      
-      if (remoteProfile) {
-        setProfileData(remoteProfile as UserProfile);
-      } else {
-        // If no profile exists, create one from the auth user
-        const initialProfile: UserProfile = {
-          displayName: user.user_metadata?.name || '',
+      try {
+        const remoteProfile = await getUserProfile(user.id);
+        
+        if (remoteProfile) {
+          setProfileData(remoteProfile as UserProfile);
+        } else {
+          // If no profile exists, create one from the auth user
+          const initialProfile: UserProfile = {
+            displayName: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+            email: user.email || '',
+            photoURL: user.user_metadata?.avatar_url || '',
+          };
+          await updateUserProfile(user.id, initialProfile);
+          setProfileData(initialProfile);
+        }
+      } catch (error) {
+        console.error("Failed to load or create profile:", error);
+        // Fallback to simple profile data so UI doesn't get stuck
+        setProfileData({
+          displayName: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
           email: user.email || '',
           photoURL: user.user_metadata?.avatar_url || '',
-        };
-        await updateUserProfile(user.id, initialProfile);
-        setProfileData(initialProfile);
+        });
+      } finally {
+        setIsProfileLoading(false);
       }
-      setIsProfileLoading(false);
     }
     
     if (user && !isUserLoading) {

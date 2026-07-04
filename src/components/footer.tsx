@@ -20,16 +20,16 @@ export default function Footer() {
         <InteractiveBlock initialColorClass="bg-brutalOrange" className="absolute top-[40%] right-[15%] w-[40px] h-[40px] z-0 hidden md:block" />
         <InteractiveBlock initialColorClass="bg-brutalYellow" className="absolute bottom-[20%] right-[30%] w-[40px] h-[40px] z-0 hidden md:block" />
 
-      <div className="container relative z-10 flex flex-col items-center justify-between gap-6 py-16 md:flex-row md:py-24">
+      <div className="container relative z-10 flex flex-col lg:flex-row flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between gap-8 py-16 md:py-24">
         <div className="flex flex-col items-center gap-4 w-full md:w-auto px-4 md:flex-row md:gap-6 md:px-0">
-          <Link href="/" className="flex items-center justify-center space-x-2 bg-white p-3 md:p-4 border-4 border-black shadow-brutal hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all w-full md:w-auto">
+          <Link href="/" className="shrink-0 flex items-center justify-center space-x-2 bg-white p-3 md:p-4 border-4 border-black shadow-brutal hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all w-full md:w-auto">
             <Logo className="text-3xl md:text-4xl" />
           </Link>
-          <p className="text-center text-base md:text-lg font-bold text-black border-4 border-black bg-white p-3 md:p-4 shadow-brutal md:text-left w-full md:max-w-sm">
+          <p className="shrink-0 text-center text-base md:text-lg font-bold text-black border-4 border-black bg-white p-3 md:p-4 shadow-brutal md:text-left w-full md:max-w-sm">
             Built for creating Unforgettable memories.
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row w-full sm:w-auto items-center justify-center gap-4 text-black font-black uppercase mt-4 md:mt-0">
+        <div className="flex flex-col sm:flex-row w-full sm:w-auto items-center justify-center gap-4 text-black font-black uppercase">
             <Link href="/terms" className="bg-white border-4 border-black px-6 py-3 shadow-brutal hover:bg-brutalYellow hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all w-full sm:w-auto text-center">Terms</Link>
             <Link href="/privacy" className="bg-white border-4 border-black px-6 py-3 shadow-brutal hover:bg-brutalYellow hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all w-full sm:w-auto text-center">Privacy</Link>
         </div>
