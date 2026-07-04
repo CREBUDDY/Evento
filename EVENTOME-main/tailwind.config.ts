@@ -125,6 +125,10 @@ export default {
           '0%, 100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
           '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -132,6 +136,7 @@ export default {
         'expand-width': 'expand-width 3s ease-out infinite',
         shimmer: 'shimmer 12s linear infinite',
         'liquid-morph': 'liquid-morph 8s ease-in-out infinite',
+        marquee: 'marquee 25s linear infinite',
       },
     },
   },
