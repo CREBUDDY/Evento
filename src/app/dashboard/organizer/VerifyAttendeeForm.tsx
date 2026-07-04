@@ -9,12 +9,21 @@ import { useToast } from "@/hooks/use-toast";
 import { verifyAttendee } from "@/actions/organizer";
 import { Event } from "@prisma/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import dynamic from "next/dynamic";
 
 const Scanner = dynamic(() => import('@yudiel/react-qr-scanner').then(mod => mod.Scanner), {
     ssr: false,
     loading: () => <div className="flex items-center justify-center h-full w-full bg-black text-white font-bold"><Loader2 className="animate-spin mr-2" /> Loading Camera...</div>
 });
+
+const brutalColors = ['bg-brutalRed', 'bg-brutalBlue', 'bg-brutalGreen', 'bg-brutalYellow', 'bg-brutalPurple', 'bg-orange-400', 'bg-pink-400'];
 
 export default function VerifyAttendeeForm({ events, organizerId }: { events: Event[], organizerId: string }) {
     const [verificationCode, setVerificationCode] = useState('');
@@ -59,16 +68,24 @@ export default function VerifyAttendeeForm({ events, organizerId }: { events: Ev
             </CardHeader>
             <CardContent className="flex flex-col md:flex-row items-center gap-4 pt-6 min-w-0">
                 <div className="grid w-full md:w-1/3 items-center gap-1.5 min-w-0">
-                     <select
-                        value={selectedEventId || ''}
-                        onChange={(e) => setSelectedEventId(e.target.value)}
-                        className="flex h-12 w-full items-center justify-between rounded-none border-4 border-black bg-brutalBg px-3 py-2 text-sm font-bold ring-offset-background focus:outline-none focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] disabled:cursor-not-allowed disabled:opacity-50 transition-all"
-                    >
-                        <option value="" disabled>Select an Event</option>
-                        {events.map(event => (
-                            <option key={event.id} value={event.id}>{event.title}</option>
-                        ))}
-                    </select>
+                     <Select value={selectedEventId || ''} onValueChange={(val) => setSelectedEventId(val)}>
+                        <SelectTrigger className="flex h-12 w-full items-center justify-between rounded-none border-4 border-black bg-brutalBg px-3 py-2 text-sm font-bold ring-offset-background focus:outline-none focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] disabled:cursor-not-allowed disabled:opacity-50 transition-all text-black">
+                            <SelectValue placeholder="Select an Event" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white text-black p-2">
+                            {events.map((event, index) => {
+                                const colorClass = brutalColors[index % brutalColors.length];
+                                return (
+                                <SelectItem 
+                                    key={event.id} 
+                                    value={event.id}
+                                    className={`font-black text-base cursor-pointer rounded-none border-2 border-black mb-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all ${colorClass} text-black focus:bg-black focus:text-white`}
+                                >
+                                    {event.title}
+                                </SelectItem>
+                            )})}
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div className="relative w-full md:flex-1 min-w-0">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" strokeWidth={3} />
