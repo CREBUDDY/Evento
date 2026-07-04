@@ -96,7 +96,7 @@ export default function DashboardLayoutClient({
                         <span className="sr-only">Toggle Navigation</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-60 p-4">
+                <SheetContent side="left" className="w-60 p-4 bg-brutalBg border-r-4 border-black text-black">
                    <SidebarNav className="mt-8"/>
                 </SheetContent>
             </Sheet>

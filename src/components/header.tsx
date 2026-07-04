@@ -42,7 +42,7 @@ export default function Header() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="pr-0">
+            <SheetContent side="left" className="pr-0 bg-brutalBg border-r-4 border-black text-black">
               <SheetHeader>
                 <SheetTitle className="sr-only">Navigation</SheetTitle>
               </SheetHeader>
