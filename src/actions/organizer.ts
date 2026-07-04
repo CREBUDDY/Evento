@@ -152,3 +152,54 @@ export async function bulkDeleteTickets(eventId: string) {
     return { success: false, error: error.message || "Failed to bulk delete tickets" };
   }
 }
+
+export async function deleteEvent(eventId: string) {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const event = await prisma.event.findUnique({
+      where: { id: eventId }
+    });
+
+    if (!event) throw new Error("Event not found");
+    if (event.organizerId !== user.id) throw new Error("Unauthorized");
+    if (event.status !== 'completed' && event.status !== 'cancelled') {
+        throw new Error("Can only delete completed or cancelled events");
+    }
+
+    await prisma.event.delete({
+      where: { id: eventId }
+    });
+
+    revalidatePath('/dashboard/organizer');
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to delete event", error);
+    return { success: false, error: error.message || "Failed to delete event" };
+  }
+}
+
+export async function cleanUpEvents() {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const result = await prisma.event.deleteMany({
+      where: {
+        organizerId: user.id,
+        status: {
+          in: ['completed', 'cancelled']
+        }
+      }
+    });
+
+    revalidatePath('/dashboard/organizer');
+    return { success: true, count: result.count };
+  } catch (error: any) {
+    console.error("Failed to clean up events", error);
+    return { success: false, error: error.message || "Failed to clean up events" };
+  }
+}

@@ -6,18 +6,16 @@ import { revalidatePath } from "next/cache";
 
 export async function getJoinedEvents(userId: string) {
   try {
-    // Lazy cleanup: Automatic delete from db for canceled event tickets 
-    // if the event was cancelled (updatedAt) more than 1 day ago.
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    // Lazy cleanup: Automatic delete from db for canceled/completed event tickets 
+    // or rejected registrations older than 7 days.
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     await prisma.attendee.deleteMany({
       where: {
         userId,
-        event: {
-          status: 'cancelled',
-          updatedAt: {
-            lt: oneDayAgo
-          }
-        }
+        OR: [
+          { status: 'rejected', createdAt: { lt: sevenDaysAgo } },
+          { event: { status: { in: ['completed', 'cancelled'] }, updatedAt: { lt: sevenDaysAgo } } }
+        ]
       }
     });
 
@@ -112,3 +110,28 @@ export async function deleteTicket(attendeeId: string) {
     return { success: false, error: error.message || "Failed to delete ticket" };
   }
 }
+
+export async function cleanUpTickets() {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const result = await prisma.attendee.deleteMany({
+      where: {
+        userId: user.id,
+        OR: [
+          { status: 'rejected' },
+          { event: { status: { in: ['completed', 'cancelled'] } } }
+        ]
+      }
+    });
+
+    revalidatePath('/dashboard/attendee');
+    return { success: true, count: result.count };
+  } catch (error: any) {
+    console.error("Failed to clean up tickets", error);
+    return { success: false, error: error.message || "Failed to clean up tickets" };
+  }
+}
+

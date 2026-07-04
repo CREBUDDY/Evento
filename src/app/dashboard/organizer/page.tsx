@@ -16,6 +16,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import OrganizerCleanupControls from "./OrganizerCleanupControls";
+import DeleteEventItem from "./DeleteEventItem";
 
 export const revalidate = 0;
 
@@ -26,6 +28,16 @@ export default async function OrganizerDashboard() {
   if (!user) {
     redirect('/login');
   }
+
+  // Auto-delete events that were completed or cancelled more than 7 days ago
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  await prisma.event.deleteMany({
+    where: {
+      organizerId: user.id,
+      status: { in: ['completed', 'cancelled'] },
+      updatedAt: { lt: sevenDaysAgo }
+    }
+  });
 
   const organizerEvents = await prisma.event.findMany({
     where: { organizerId: user.id },
@@ -54,12 +66,15 @@ export default async function OrganizerDashboard() {
           <h1 className="font-headline text-3xl font-black uppercase tracking-tighter sm:text-5xl text-black">Organizer Dashboard</h1>
           <p className="text-black font-bold text-lg mt-2">Here's an overview of your events.</p>
         </div>
-        <Button asChild className="w-full md:w-auto rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
-          <Link href="/creato">
-            <PlusCircle className="mr-2 h-5 w-5" strokeWidth={3} />
-            Create New Event
-          </Link>
-        </Button>
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            <OrganizerCleanupControls />
+            <Button asChild className="w-full sm:w-auto rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+            <Link href="/creato">
+                <PlusCircle className="mr-2 h-5 w-5" strokeWidth={3} />
+                Create New Event
+            </Link>
+            </Button>
+        </div>
       </div>
 
       <VerifyAttendeeForm events={organizerEvents} organizerId={user.id} />
@@ -164,6 +179,9 @@ export default async function OrganizerDashboard() {
                         <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalBlue focus:text-black font-bold cursor-pointer border-t-2 border-black">
                             <Link href={`/creato/${event.id}/edit`}>Edit Details</Link>
                         </DropdownMenuItem>
+                        {(event.status === 'completed' || event.status === 'cancelled') && (
+                            <DeleteEventItem eventId={event.id} />
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
