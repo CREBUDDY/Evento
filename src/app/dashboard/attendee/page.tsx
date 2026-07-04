@@ -76,7 +76,7 @@ export default async function AttendeeDashboard() {
                 {event.status !== 'cancelled' ? (
                   <>
                       <div className="relative h-32 w-32 rounded-none border-4 border-black overflow-hidden bg-white p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <img src={qrCodeUrl} alt="QR Code" className="w-full h-full object-contain" />
+                        <img src={qrCodeUrl} alt="QR Code" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                       </div>
                       <p className="mt-3 text-xs font-black uppercase tracking-wider text-black">Scan for entry</p>
                   </>

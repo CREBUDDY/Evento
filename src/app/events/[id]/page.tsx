@@ -78,6 +78,8 @@ export default async function EventDetailPage({ params }: { params: { id: string
                                 <img
                                     src={event.imageUrl}
                                     alt={event.title}
+                                    fetchpriority="high"
+                                    decoding="async"
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                             ) : (
