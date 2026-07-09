@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PlusCircle, Calendar, Users, DollarSign, MoreHorizontal } from "lucide-react";
+import { PlusCircle, Calendar, Users, DollarSign, MoreHorizontal, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
@@ -16,7 +16,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import OrganizerCleanupControls from "./OrganizerCleanupControls";
 import DeleteEventItem from "./DeleteEventItem";
 
 export const revalidate = 0;
@@ -40,7 +39,10 @@ export default async function OrganizerDashboard() {
   });
 
   const organizerEvents = await prisma.event.findMany({
-    where: { organizerId: user.id },
+    where: { 
+      organizerId: user.id,
+      status: { notIn: ['completed', 'cancelled'] }
+    },
     include: {
       _count: {
         select: { attendees: true }
@@ -67,7 +69,6 @@ export default async function OrganizerDashboard() {
           <p className="text-black font-bold text-lg mt-2">Here's an overview of your events.</p>
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-            <OrganizerCleanupControls />
             <Button asChild className="w-full sm:w-auto rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
             <Link href="/creato">
                 <PlusCircle className="mr-2 h-5 w-5" strokeWidth={3} />
@@ -199,6 +200,14 @@ export default async function OrganizerDashboard() {
             )}
         </CardContent>
       </Card>
+
+      {/* Floating Trash Bin Button */}
+      <Link href="/dashboard/organizer/trash" className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50">
+        <Button size="icon" variant="outline" className="h-12 w-12 rounded-none border-4 border-black bg-white hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none" title="Trash Bin">
+          <Trash2 className="h-6 w-6" strokeWidth={3} />
+          <span className="sr-only">Trash Bin</span>
+        </Button>
+      </Link>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, LayoutDashboard, Ticket, User, ArrowRight, Shield } from "lucide-react";
+import { LogOut, LayoutDashboard, Ticket, User, ArrowRight, Shield, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -115,6 +115,12 @@ export default function AuthButton() {
           <Link href="/dashboard/attendee">
             <Ticket className="mr-2 h-5 w-5" strokeWidth={3} />
             <span>My Tickets</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="font-black uppercase text-black hover:bg-brutalPurple focus:bg-brutalPurple rounded-none cursor-pointer p-3 border-2 border-transparent focus:border-black transition-all mt-1">
+          <Link href="/settings">
+            <Settings className="mr-2 h-5 w-5" strokeWidth={3} />
+            <span>Settings</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator className="bg-black h-1 my-2" />

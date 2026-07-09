@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 import { getJoinedEvents } from "@/actions/attendee";
 import CopyCodeButton from "./CopyCodeButton";
 import DeleteTicketButton from "./DeleteTicketButton";
-import AttendeeCleanupControls from "./AttendeeCleanupControls";
 
 export const revalidate = 0;
 
@@ -31,7 +30,6 @@ export default async function AttendeeDashboard() {
             <h1 className="font-headline text-3xl font-black uppercase tracking-tighter sm:text-5xl flex items-center gap-2 text-black"><Ticket className="h-10 w-10" strokeWidth={3}/> My Tickets</h1>
             <p className="text-black font-bold text-lg mt-2">Your upcoming events and digital entry tickets.</p>
         </div>
-        <AttendeeCleanupControls />
       </div>
 
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">

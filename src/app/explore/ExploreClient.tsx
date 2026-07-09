@@ -14,14 +14,20 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<EventCategory | 'All'>('All');
   const [priceFilter, setPriceFilter] = useState<'all' | 'free' | 'paid'>('all');
-  const [locationQuery, setLocationQuery] = useState('');
+  
+  // Advanced filters
+  const [statusFilter, setStatusFilter] = useState<'published' | 'completed'>('published');
+  const [cityQuery, setCityQuery] = useState('');
+  const [stateQuery, setStateQuery] = useState('');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
-  const publishedEvents = useMemo(() => {
-    return (allEvents || []).filter(e => e.status === 'published');
-  }, [allEvents]);
+  const baseEvents = useMemo(() => {
+    return (allEvents || []).filter(e => e.status === statusFilter);
+  }, [allEvents, statusFilter]);
 
   const filteredEvents = useMemo(() => {
-    return publishedEvents.filter((event) => {
+    return baseEvents.filter((event) => {
       // Name Search
       if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false;
@@ -30,17 +36,40 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
       if (categoryFilter !== 'All' && event.category !== categoryFilter) {
         return false;
       }
-      // Location Filter
-      if (locationQuery && !event.venue.toLowerCase().includes(locationQuery.toLowerCase()) && !event.venueAddress.toLowerCase().includes(locationQuery.toLowerCase())) {
+      
+      const fullAddress = `${event.venue} ${event.venueAddress}`.toLowerCase();
+      
+      // City Filter
+      if (cityQuery && !fullAddress.includes(cityQuery.toLowerCase())) {
         return false;
       }
+      
+      // State Filter
+      if (stateQuery && !fullAddress.includes(stateQuery.toLowerCase())) {
+        return false;
+      }
+
       // Price Filter
       if (priceFilter === 'free' && event.price > 0) return false;
       if (priceFilter === 'paid' && event.price === 0) return false;
       
+      // Date Filter
+      if (fromDate || toDate) {
+         const eventDate = new Date(event.dateTime).getTime();
+         if (fromDate) {
+             const fromTime = new Date(fromDate).getTime();
+             if (eventDate < fromTime) return false;
+         }
+         if (toDate) {
+             const toTime = new Date(toDate).getTime();
+             // Add 1 day to toDate to include the whole day
+             if (eventDate > toTime + 86400000) return false;
+         }
+      }
+      
       return true;
     }).sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
-  }, [publishedEvents, searchQuery, categoryFilter, locationQuery, priceFilter]);
+  }, [baseEvents, searchQuery, categoryFilter, cityQuery, stateQuery, priceFilter, fromDate, toDate]);
 
   return (
     <div className="min-h-screen bg-brutalBg pb-24 relative overflow-hidden">
@@ -81,17 +110,77 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                             </div>
                         </div>
 
-                        {/* Search Location */}
+                        {/* Event Status */}
                         <div className="space-y-2">
-                            <label className="font-black uppercase text-sm text-black">Location</label>
+                            <label className="font-black uppercase text-sm text-black">Event Status</label>
+                            <div className="grid grid-cols-2 gap-2">
+                                <Button 
+                                    variant={statusFilter === 'published' ? 'default' : 'outline'}
+                                    onClick={() => setStatusFilter('published')}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'published' ? 'bg-brutalBlue text-white' : 'bg-white text-black hover:bg-brutalBlue hover:text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                >
+                                    Upcoming
+                                </Button>
+                                <Button 
+                                    variant={statusFilter === 'completed' ? 'default' : 'outline'}
+                                    onClick={() => setStatusFilter('completed')}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'completed' ? 'bg-brutalGreen text-black' : 'bg-white text-black hover:bg-brutalGreen hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                >
+                                    Completed
+                                </Button>
+                            </div>
+                        </div>
+
+                        {/* Search Location: City */}
+                        <div className="space-y-2">
+                            <label className="font-black uppercase text-sm text-black">City</label>
                             <div className="relative">
                                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-black h-5 w-5" strokeWidth={3} />
                                 <Input 
-                                    placeholder="City or Venue..." 
-                                    value={locationQuery}
-                                    onChange={(e) => setLocationQuery(e.target.value)}
+                                    placeholder="e.g. Mumbai..." 
+                                    value={cityQuery}
+                                    onChange={(e) => setCityQuery(e.target.value)}
                                     className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
                                 />
+                            </div>
+                        </div>
+
+                        {/* Search Location: State */}
+                        <div className="space-y-2">
+                            <label className="font-black uppercase text-sm text-black">State</label>
+                            <div className="relative">
+                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-black h-5 w-5" strokeWidth={3} />
+                                <Input 
+                                    placeholder="e.g. Maharashtra..." 
+                                    value={stateQuery}
+                                    onChange={(e) => setStateQuery(e.target.value)}
+                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                />
+                            </div>
+                        </div>
+                        
+                        {/* Date Filters */}
+                        <div className="space-y-2">
+                            <label className="font-black uppercase text-sm text-black">Date Range</label>
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-xs uppercase w-10">From:</span>
+                                    <Input 
+                                        type="date"
+                                        value={fromDate}
+                                        onChange={(e) => setFromDate(e.target.value)}
+                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase"
+                                    />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-xs uppercase w-10">To:</span>
+                                    <Input 
+                                        type="date"
+                                        value={toDate}
+                                        onChange={(e) => setToDate(e.target.value)}
+                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase"
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -143,8 +232,11 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                         {/* Reset Filters */}
                         <Button 
                             onClick={() => {
-                                setSearchQuery('');
-                                setLocationQuery('');
+                                setCityQuery('');
+                                setStateQuery('');
+                                setFromDate('');
+                                setToDate('');
+                                setStatusFilter('published');
                                 setCategoryFilter('All');
                                 setPriceFilter('all');
                             }}

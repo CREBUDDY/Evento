@@ -5,6 +5,8 @@ import Logo from './logo';
 import { Button } from './ui/button';
 import AuthButton from './auth/auth-button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import { Settings } from 'lucide-react';
+import NotificationsBell from './NotificationsBell';
 
 const navLinks = [
   { href: '/explore', label: 'Events' },
@@ -68,7 +70,8 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="flex items-center shrink-0">
+        <div className="flex items-center shrink-0 gap-4">
+          <NotificationsBell />
           <AuthButton />
         </div>
       </div>

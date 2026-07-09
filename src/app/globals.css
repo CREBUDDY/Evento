@@ -76,6 +76,15 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  html.dark {
+    filter: invert(1) hue-rotate(180deg);
+  }
+  
+  /* Re-invert images and videos so they look normal */
+  html.dark img, html.dark video {
+    filter: invert(1) hue-rotate(180deg);
+  }
 }
 
 @layer base {
