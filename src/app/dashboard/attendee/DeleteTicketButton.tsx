@@ -33,7 +33,7 @@ export default function DeleteTicketButton({ attendeeId }: { attendeeId: string 
                     <Trash2 className="h-4 w-4 mr-1" /> Delete
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+            <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
                 <DialogHeader>
                     <DialogTitle className="font-black uppercase text-xl text-brutalRed">Delete Ticket?</DialogTitle>
                     <DialogDescription className="font-bold text-black">
@@ -41,7 +41,7 @@ export default function DeleteTicketButton({ attendeeId }: { attendeeId: string 
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="mt-4 flex gap-2">
-                    <Button disabled={isDeleting} onClick={handleDelete} className="w-full rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                    <Button disabled={isDeleting} onClick={handleDelete} className="w-full rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                         {isDeleting ? <Loader2 className="animate-spin mr-2" /> : "Confirm Delete"}
                     </Button>
                 </DialogFooter>

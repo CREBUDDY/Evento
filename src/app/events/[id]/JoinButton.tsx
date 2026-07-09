@@ -52,7 +52,7 @@ export default function JoinButton({ eventId, isLoggedIn, hasJoined, isFull, pri
   return (
     <Button 
       size="lg" 
-      className="w-full font-black uppercase text-lg h-16 rounded-none border-4 border-black bg-brutalRed text-black hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
+      className="w-full font-black uppercase text-lg h-16 rounded-none border-4 border-black bg-brutalRed text-black hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
       onClick={handleJoinClick} 
       disabled={isJoining || hasJoined || (isFull && !hasJoined) || isOrganizer}
     >

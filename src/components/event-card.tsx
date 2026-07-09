@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Calendar, MapPin, Ticket } from "lucide-react";
@@ -22,12 +23,12 @@ export default function EventCard({ event, className }: EventCardProps) {
         <CardHeader className="p-0 border-b-4 border-black bg-white">
           <div className="relative h-48 w-full overflow-hidden">
             {event.imageUrl ? (
-                <img
+                <Image
                 src={event.imageUrl}
                 alt={event.title}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
                 />
             ) : (
                 <div className="w-full h-full bg-brutalBg flex items-center justify-center">
@@ -35,7 +36,7 @@ export default function EventCard({ event, className }: EventCardProps) {
                 </div>
             )}
             <div className="absolute top-4 right-4">
-              <Badge className="rounded-none border-2 border-black bg-white text-black font-black uppercase text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <Badge className="rounded-none border-2 border-black bg-white text-black font-black uppercase text-sm shadow-[2px_2px_0px_0px_var(--brutal-shadow)]">
                 {event.category}
               </Badge>
             </div>

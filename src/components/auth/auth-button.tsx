@@ -67,7 +67,7 @@ export default function AuthButton() {
     return (
         <Link 
             href="/login"
-            className="relative group flex items-center gap-1 md:gap-2 px-3 py-1.5 md:px-6 md:py-2 rounded-none border-4 border-black text-black font-black uppercase tracking-wider bg-brutalGreen shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] md:shadow-brutal transition-all hover:translate-x-[2px] md:hover:translate-x-[4px] hover:translate-y-[2px] md:hover:translate-y-[4px] hover:shadow-none text-xs md:text-base"
+            className="relative group flex items-center gap-1 md:gap-2 px-3 py-1.5 md:px-6 md:py-2 rounded-none border-4 border-black text-black font-black uppercase tracking-wider bg-brutalGreen shadow-[2px_2px_0px_0px_var(--brutal-shadow)] md:shadow-brutal transition-all hover:translate-x-[2px] md:hover:translate-x-[4px] hover:translate-y-[2px] md:hover:translate-y-[4px] hover:shadow-none text-xs md:text-base"
         >
             <span className="relative z-10 flex items-center gap-1 md:gap-2">
                 Sign In
@@ -83,13 +83,13 @@ export default function AuthButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-none border-2 border-black bg-brutalBlue hover:bg-brutalBlue shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all p-0">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-none border-2 border-black bg-brutalBlue hover:bg-brutalBlue shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all p-0">
           <Avatar className="h-full w-full rounded-none">
             <AvatarFallback className="bg-transparent text-black font-black rounded-none">{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-2" align="end" forceMount>
+      <DropdownMenuContent className="w-56 rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] p-2" align="end" forceMount>
         <DropdownMenuLabel className="font-normal p-2">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-black uppercase text-black leading-none">User</p>

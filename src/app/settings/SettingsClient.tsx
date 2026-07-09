@@ -2,7 +2,7 @@
 
 import { useSettings } from "@/contexts/SettingsContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+import { BrutalSwitch } from "@/components/ui/brutal-switch";
 import { Moon, Sun, Vibrate, Volume2, Database } from "lucide-react";
 import OrganizerCleanupControls from "../dashboard/organizer/OrganizerCleanupControls";
 import AttendeeCleanupControls from "../dashboard/attendee/AttendeeCleanupControls";
@@ -36,7 +36,7 @@ export default function SettingsClient() {
     <div className="space-y-6">
       
       {/* Global Preferences */}
-      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
         <CardHeader className="border-b-4 border-black pb-4 bg-brutalYellow">
           <CardTitle className="font-black uppercase text-2xl">Global Preferences</CardTitle>
           <CardDescription className="font-bold text-black">Manage your app experience.</CardDescription>
@@ -55,10 +55,9 @@ export default function SettingsClient() {
                   <p className="font-bold text-gray-600">Invert colors for a darker experience.</p>
                 </div>
               </div>
-              <Switch 
+              <BrutalSwitch 
                 checked={theme === 'dark'} 
                 onCheckedChange={handleThemeChange} 
-                className="border-2 border-black data-[state=checked]:bg-brutalBlue"
               />
             </div>
 
@@ -73,10 +72,9 @@ export default function SettingsClient() {
                   <p className="font-bold text-gray-600">Enable vibrations on supported devices.</p>
                 </div>
               </div>
-              <Switch 
+              <BrutalSwitch 
                 checked={hapticsEnabled} 
                 onCheckedChange={handleHapticsChange} 
-                className="border-2 border-black data-[state=checked]:bg-brutalGreen"
               />
             </div>
 
@@ -91,10 +89,9 @@ export default function SettingsClient() {
                   <p className="font-bold text-gray-600">Play a sound on important actions.</p>
                 </div>
               </div>
-              <Switch 
+              <BrutalSwitch 
                 checked={soundEnabled} 
                 onCheckedChange={handleSoundChange} 
-                className="border-2 border-black data-[state=checked]:bg-brutalRed"
               />
             </div>
 
@@ -103,7 +100,7 @@ export default function SettingsClient() {
       </Card>
 
       {/* Data Management */}
-      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
         <CardHeader className="border-b-4 border-black pb-4 bg-brutalPurple text-white">
           <CardTitle className="font-black uppercase text-2xl">Data Management</CardTitle>
           <CardDescription className="font-bold text-white">Clean up your old events and tickets.</CardDescription>

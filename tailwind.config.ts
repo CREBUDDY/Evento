@@ -26,9 +26,9 @@ export default {
         code: ['monospace'],
       },
       boxShadow: {
-        brutal: '6px 6px 0px 0px rgba(0,0,0,1)',
-        'brutal-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
-        'brutal-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+        brutal: '6px 6px 0px 0px var(--brutal-shadow)',
+        'brutal-sm': '4px 4px 0px 0px var(--brutal-shadow)',
+        'brutal-lg': '8px 8px 0px 0px var(--brutal-shadow)',
       },
       colors: {
         brutalBg: '#F4EFEB',

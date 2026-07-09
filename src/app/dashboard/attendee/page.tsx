@@ -40,17 +40,17 @@ export default async function AttendeeDashboard() {
             const ticketId = event.attendeeInfo?.id;
             
             return (
-          <Card key={event.id} className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row overflow-hidden text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+          <Card key={event.id} className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)] flex flex-col md:flex-row overflow-hidden text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
             <div className="p-6 flex-1 flex flex-col min-w-0">
               <CardHeader className="p-0 mb-4">
                 <div className="flex justify-between items-start mb-2">
                     <div className="flex gap-2 items-center">
                         <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalBlue text-black font-black uppercase">{event.category}</Badge>
                         {event.status === 'cancelled' && (
-                            <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalRed text-white font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-dashed rotate-2 scale-105">EVENT CANCELLED</Badge>
+                            <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalRed text-white font-black uppercase shadow-[2px_2px_0px_0px_var(--brutal-shadow)] border-dashed rotate-2 scale-105">EVENT CANCELLED</Badge>
                         )}
                         {event.status === 'completed' && (
-                            <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalGreen text-black font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-2 scale-105">COMPLETED</Badge>
+                            <Badge variant="outline" className="w-fit rounded-none border-2 border-black bg-brutalGreen text-black font-black uppercase shadow-[2px_2px_0px_0px_var(--brutal-shadow)] -rotate-2 scale-105">COMPLETED</Badge>
                         )}
                     </div>
                     {ticketId && <DeleteTicketButton attendeeId={ticketId} />}
@@ -90,7 +90,7 @@ export default async function AttendeeDashboard() {
               </CardContent>
             </div>
             <div className={`p-6 flex flex-col items-center justify-center border-t-4 border-black md:border-t-0 md:border-l-4 border-black shrink-0 ${event.status === 'cancelled' || status === 'rejected' ? 'bg-muted' : status === 'pending_registration' ? 'bg-orange-300' : 'bg-brutalYellow'}`}>
-               <div className={`flex items-center gap-2 font-black uppercase text-lg border-2 border-black px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+               <div className={`flex items-center gap-2 font-black uppercase text-lg border-2 border-black px-3 py-1 shadow-[2px_2px_0px_0px_var(--brutal-shadow)] ${
                     event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 border-dashed scale-105' : 
                     status === 'rejected' ? 'bg-brutalRed text-white rotate-2 border-dashed scale-105' :
                     status === 'checked_in' ? 'bg-gray-300 text-black' : 
@@ -110,8 +110,8 @@ export default async function AttendeeDashboard() {
                 </p>
                 {event.status !== 'cancelled' && (status === 'approved' || status === 'checked_in') ? (
                   <>
-                      <div className="relative h-32 w-32 rounded-none border-4 border-black overflow-hidden bg-white p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <img src={qrCodeUrl} alt="QR Code" loading="lazy" decoding="async" className="w-full h-full object-contain" />
+                      <div className="relative h-32 w-32 rounded-none border-4 border-black overflow-hidden bg-white p-2 shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
+                        <Image src={qrCodeUrl} alt="QR Code" fill sizes="128px" className="object-contain" />
                         {status === 'checked_in' && (
                            <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
                                <span className="font-black uppercase text-gray-800 rotate-[-15deg] text-xl border-4 border-gray-800 p-1">USED</span>
@@ -138,7 +138,7 @@ export default async function AttendeeDashboard() {
                 <Ticket className="h-16 w-16 text-black mx-auto mb-4" strokeWidth={3}/>
                 <h3 className="text-2xl font-black uppercase text-black">No upcoming events</h3>
                 <p className="text-black font-bold mt-2 max-w-sm mx-auto">You haven't joined any events yet. When you do, your tickets will appear here.</p>
-                <Button asChild className="mt-8 rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all h-12 px-8">
+                <Button asChild className="mt-8 rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all h-12 px-8">
                     <Link href="/#events">Explore Events</Link>
                 </Button>
             </CardContent>

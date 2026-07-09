@@ -118,7 +118,7 @@ export default function LoginClient() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold"
+                className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold"
               />
             </div>
             <div className="space-y-2">
@@ -129,13 +129,13 @@ export default function LoginClient() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold"
+                className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full h-14 text-lg font-black uppercase rounded-none border-4 border-black bg-brutalGreen hover:bg-brutalGreen text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all mt-4"
+              className="w-full h-14 text-lg font-black uppercase rounded-none border-4 border-black bg-brutalGreen hover:bg-brutalGreen text-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all mt-4"
               disabled={isLoading}
             >
               {isLoading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}

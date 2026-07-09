@@ -87,13 +87,13 @@ export default function ExportButtons({ event }: { event: FullEvent }) {
 
     return (
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <Button onClick={handleExportPDF} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+            <Button onClick={handleExportPDF} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                 <FileText className="mr-2 h-5 w-5" /> Download PDF
             </Button>
-            <Button onClick={handleExportCSV} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+            <Button onClick={handleExportCSV} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                 <TableIcon className="mr-2 h-5 w-5" /> Export CSV
             </Button>
-            <Button onClick={handleExportExcel} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+            <Button onClick={handleExportExcel} className="flex-1 h-14 rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                 <FileSpreadsheet className="mr-2 h-5 w-5" /> Export Excel
             </Button>
         </div>

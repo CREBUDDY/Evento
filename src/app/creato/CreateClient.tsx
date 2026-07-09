@@ -3,13 +3,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, ArrowLeft, Eye } from "lucide-react";
+import { Calendar as CalendarIcon, ArrowLeft, Eye, Info } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
+import imageCompression from "browser-image-compression";
+import { createClient } from "@/lib/supabase/client";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -44,6 +46,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useFirestore, useUser, errorEmitter, FirestorePermissionError } from "@/firebase";
 import { cn } from "@/lib/utils";
@@ -78,6 +81,7 @@ export default function CreateClient() {
     const searchParams = useSearchParams();
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
     const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
 
     const form = useForm<EventFormValues>({
@@ -102,6 +106,57 @@ export default function CreateClient() {
             router.push(redirect ? `/login?redirect=${redirect}` : '/login?redirect=/creato');
         }
     }, [user, isUserLoading, router, searchParams]);
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+            setIsUploadingImage(true);
+            
+            // 1. Optimize Image
+            const options = {
+                maxSizeMB: 0.5, // 500KB
+                maxWidthOrHeight: 1920,
+                useWebWorker: true,
+            };
+            const compressedFile = await imageCompression(file, options);
+            
+            // 2. Upload to Supabase Storage
+            const supabase = createClient();
+            const fileExt = compressedFile.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+            const filePath = `${fileName}`;
+            
+            const { error: uploadError } = await supabase.storage
+                .from('event-banners')
+                .upload(filePath, compressedFile);
+                
+            if (uploadError) throw uploadError;
+            
+            // 3. Get Public URL
+            const { data } = supabase.storage
+                .from('event-banners')
+                .getPublicUrl(filePath);
+                
+            form.setValue('imageUrl', data.publicUrl);
+            
+            toast({
+                title: "Image Uploaded",
+                description: "Your banner was optimized and uploaded successfully.",
+            });
+            
+        } catch (error) {
+            console.error("Error uploading image: ", error);
+            toast({
+                title: "Upload Failed",
+                description: "Failed to optimize or upload the image. Check if the 'event-banners' bucket exists.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsUploadingImage(false);
+        }
+    };
     
     const handlePreview = () => {
         const values = form.getValues();
@@ -208,7 +263,7 @@ export default function CreateClient() {
             </div>
             
             <div className="relative z-10 mx-auto max-w-3xl">
-                <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
+                <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
                     <Link href="/">
                         <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={3} />
                         Back to Events
@@ -228,7 +283,7 @@ export default function CreateClient() {
                             <FormItem>
                             <FormLabel className="font-black uppercase text-black">Event Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="e.g., Nexus Hackathon 2025" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                <Input placeholder="e.g., Nexus Hackathon 2025" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -242,7 +297,7 @@ export default function CreateClient() {
                             <FormItem>
                             <FormLabel className="font-black uppercase text-black">Description</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Tell us more about your event..." {...field} className="rounded-none border-4 border-black bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black min-h-[120px]" />
+                                <Textarea placeholder="Tell us more about your event..." {...field} className="rounded-none border-4 border-black bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black min-h-[120px]" />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -258,11 +313,11 @@ export default function CreateClient() {
                                     <FormLabel className="font-black uppercase text-black">Category</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase">
+                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase">
                                         <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                         {categories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                                     </SelectContent>
                                     </Select>
@@ -278,11 +333,11 @@ export default function CreateClient() {
                                     <FormLabel className="font-black uppercase text-black">Target Audience</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase">
+                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase">
                                         <SelectValue placeholder="Select target audience" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                         {audiences.map(aud => <SelectItem key={aud} value={aud}>{aud}</SelectItem>)}
                                     </SelectContent>
                                     </Select>
@@ -297,7 +352,7 @@ export default function CreateClient() {
                             name="dateTime"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                <FormLabel className="font-black uppercase text-black">Date & Time</FormLabel>
+                                <FormLabel className="font-black uppercase text-black">Date & Time <span className="text-brutalRed">*</span></FormLabel>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -305,7 +360,7 @@ export default function CreateClient() {
                                             <Button
                                             variant={"outline"}
                                             className={cn(
-                                                "w-full justify-start text-left font-bold rounded-none border-4 border-black h-14 bg-brutalBg hover:bg-brutalBg hover:text-black focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all",
+                                                "w-full justify-start text-left font-bold rounded-none border-4 border-black h-14 bg-brutalBg hover:bg-brutalBg hover:text-black focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                             >
@@ -314,7 +369,7 @@ export default function CreateClient() {
                                             </Button>
                                         </FormControl>
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0 rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" align="start">
+                                        <PopoverContent className="w-auto p-0 rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]" align="start">
                                         <Calendar
                                             mode="single"
                                             selected={field.value}
@@ -330,7 +385,7 @@ export default function CreateClient() {
                                         render={({ field }) => (
                                             <FormItem className="m-0">
                                                 <FormControl>
-                                                    <Input type="time" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase" />
+                                                    <Input type="time" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase" />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -350,7 +405,7 @@ export default function CreateClient() {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Venue</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., Main Auditorium" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input placeholder="e.g., Main Auditorium" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -363,7 +418,7 @@ export default function CreateClient() {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Venue Address</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., 123 Tech Park, Silicon Valley" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input placeholder="e.g., 123 Tech Park, Silicon Valley" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -377,9 +432,9 @@ export default function CreateClient() {
                                 name="capacity"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel className="font-black uppercase text-black">Capacity</FormLabel>
+                                    <FormLabel className="font-black uppercase text-black">Capacity <span className="text-brutalRed">*</span></FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="e.g., 200" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input type="number" placeholder="e.g., 200" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -390,10 +445,58 @@ export default function CreateClient() {
                                 name="price"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel className="font-black uppercase text-black">Entry Fee (₹)</FormLabel>
+                                    <FormLabel className="font-black uppercase text-black">Entry Fee (₹) <span className="text-brutalRed">*</span></FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Enter 0 for free events" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input type="number" placeholder="(0 For free event)" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <FormItem>
+                                <FormLabel className="font-black uppercase text-black">Upload Banner Image (Optimized)</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={handleImageUpload} 
+                                        disabled={isUploadingImage}
+                                        className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-2 file:border-black file:bg-brutalYellow file:text-black file:font-black file:uppercase hover:file:bg-brutalBlue cursor-pointer" 
+                                    />
+                                </FormControl>
+                                <FormDescription className="font-bold border-l-4 border-black pl-2">
+                                    {isUploadingImage ? "Compressing & Uploading..." : "Max 500KB optimized limit. Automatically updates URL."}
+                                </FormDescription>
+                            </FormItem>
+
+                            <FormField
+                                control={form.control}
+                                name="imageUrl"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <div className="flex items-center gap-2">
+                                        <FormLabel className="font-black uppercase text-black">Event Banner URL</FormLabel>
+                                        <TooltipProvider>
+                                            <Tooltip delayDuration={300}>
+                                                <TooltipTrigger type="button" onClick={(e) => e.preventDefault()} className="cursor-help">
+                                                    <Info className="h-4 w-4 text-black hover:text-brutalBlue transition-colors" strokeWidth={3} />
+                                                </TooltipTrigger>
+                                                <TooltipContent side="top" className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)] font-bold text-black p-3 max-w-[250px] z-50">
+                                                    <p className="mb-1 text-sm border-b-2 border-black pb-1">Acceptable formats: .jpg, .png, .webp, .gif</p>
+                                                    <p className="text-xs">To copy an image link from the internet: Right-click the image and select "Copy image address", then paste it here.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </div>
+                                    <FormControl>
+                                        <Input placeholder="https://example.com/banner.jpg" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
+                                    </FormControl>
+                                    <FormDescription className="font-bold border-l-4 border-black pl-2">
+                                        Link to the official banner or uploaded image.
+                                    </FormDescription>
                                     <FormMessage />
                                     </FormItem>
                                 )}
@@ -402,26 +505,9 @@ export default function CreateClient() {
 
                          <FormField
                             control={form.control}
-                            name="imageUrl"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel className="font-black uppercase text-black">Event Banner URL</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="https://example.com/banner.jpg" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
-                                </FormControl>
-                                <FormDescription className="font-bold border-l-4 border-black pl-2">
-                                    Link to the official banner or poster for your event.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                         <FormField
-                            control={form.control}
                             name="requiresApproval"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center justify-between rounded-none border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
+                                <FormItem className="flex flex-row items-center justify-between rounded-none border-4 border-black p-4 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] bg-white">
                                     <div className="space-y-0.5">
                                         <FormLabel className="text-base font-black uppercase text-black">
                                             Require Manual Approval
@@ -447,12 +533,12 @@ export default function CreateClient() {
                                  if (isValid) {
                                      handleFormSubmit(form.getValues(), 'draft');
                                  }
-                             }} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                             }} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                                 Save as Draft
                             </Button>
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button type="button" variant="outline" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-full sm:w-14 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all flex items-center justify-center">
+                                    <Button type="button" variant="outline" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-full sm:w-14 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all flex items-center justify-center">
                                         <Eye className="h-6 w-6 sm:mr-0 mr-2" strokeWidth={3} />
                                         <span className="sm:sr-only font-black uppercase">Preview</span>
                                     </Button>
@@ -469,7 +555,7 @@ export default function CreateClient() {
                                 )}
                             </Dialog>
 
-                            <Button type="submit" disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                            <Button type="submit" disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                                 {isSubmitting ? "Publishing..." : "Publish Event"}
                             </Button>
                         </div>

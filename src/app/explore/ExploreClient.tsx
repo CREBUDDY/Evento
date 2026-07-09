@@ -92,7 +92,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
         <div className="container mt-8 relative z-10 flex flex-col lg:flex-row gap-8">
             {/* Filters Sidebar */}
             <div className="w-full lg:w-1/4 space-y-6">
-                <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">
                     <h2 className="font-black uppercase text-2xl flex items-center gap-2 mb-6 border-b-4 border-black pb-2 text-black"><Filter strokeWidth={3}/> Filters</h2>
                     
                     <div className="space-y-6">
@@ -105,7 +105,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                     placeholder="e.g. Hackathon..." 
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all"
                                 />
                             </div>
                         </div>
@@ -117,14 +117,14 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                 <Button 
                                     variant={statusFilter === 'published' ? 'default' : 'outline'}
                                     onClick={() => setStatusFilter('published')}
-                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'published' ? 'bg-brutalBlue text-white' : 'bg-white text-black hover:bg-brutalBlue hover:text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'published' ? 'bg-brutalBlue text-white' : 'bg-white text-black hover:bg-brutalBlue hover:text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)]'}`}
                                 >
                                     Upcoming
                                 </Button>
                                 <Button 
                                     variant={statusFilter === 'completed' ? 'default' : 'outline'}
                                     onClick={() => setStatusFilter('completed')}
-                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'completed' ? 'bg-brutalGreen text-black' : 'bg-white text-black hover:bg-brutalGreen hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${statusFilter === 'completed' ? 'bg-brutalGreen text-black' : 'bg-white text-black hover:bg-brutalGreen hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)]'}`}
                                 >
                                     Completed
                                 </Button>
@@ -140,7 +140,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                     placeholder="e.g. Mumbai..." 
                                     value={cityQuery}
                                     onChange={(e) => setCityQuery(e.target.value)}
-                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all"
                                 />
                             </div>
                         </div>
@@ -154,7 +154,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                     placeholder="e.g. Maharashtra..." 
                                     value={stateQuery}
                                     onChange={(e) => setStateQuery(e.target.value)}
-                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                    className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all"
                                 />
                             </div>
                         </div>
@@ -169,7 +169,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                         type="date"
                                         value={fromDate}
                                         onChange={(e) => setFromDate(e.target.value)}
-                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase"
+                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all uppercase"
                                     />
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                         type="date"
                                         value={toDate}
                                         onChange={(e) => setToDate(e.target.value)}
-                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all uppercase"
+                                        className="h-10 rounded-none border-4 border-black bg-white font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all uppercase"
                                     />
                                 </div>
                             </div>
@@ -188,10 +188,10 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                         <div className="space-y-2">
                             <label className="font-black uppercase text-sm text-black">Category</label>
                             <Select value={categoryFilter} onValueChange={(val: any) => setCategoryFilter(val)}>
-                                <SelectTrigger className="w-full rounded-none border-4 border-black bg-white h-12 font-bold text-black focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all">
+                                <SelectTrigger className="w-full rounded-none border-4 border-black bg-white h-12 font-bold text-black focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all">
                                     <SelectValue placeholder="All Categories" />
                                 </SelectTrigger>
-                                <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                     {categories.map((cat) => (
                                         <SelectItem key={cat} value={cat} className="font-bold cursor-pointer hover:bg-brutalYellow focus:bg-brutalYellow rounded-none">
                                             {cat}
@@ -208,21 +208,21 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                 <Button 
                                     variant={priceFilter === 'all' ? 'default' : 'outline'}
                                     onClick={() => setPriceFilter('all')}
-                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'all' ? 'bg-black text-white' : 'bg-white text-black hover:bg-brutalYellow hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'all' ? 'bg-black text-white' : 'bg-white text-black hover:bg-brutalYellow hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)]'}`}
                                 >
                                     All
                                 </Button>
                                 <Button 
                                     variant={priceFilter === 'free' ? 'default' : 'outline'}
                                     onClick={() => setPriceFilter('free')}
-                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'free' ? 'bg-brutalGreen text-black' : 'bg-white text-black hover:bg-brutalGreen hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'free' ? 'bg-brutalGreen text-black' : 'bg-white text-black hover:bg-brutalGreen hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)]'}`}
                                 >
                                     Free
                                 </Button>
                                 <Button 
                                     variant={priceFilter === 'paid' ? 'default' : 'outline'}
                                     onClick={() => setPriceFilter('paid')}
-                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'paid' ? 'bg-brutalBlue text-black' : 'bg-white text-black hover:bg-brutalBlue hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'}`}
+                                    className={`rounded-none border-4 border-black font-black uppercase transition-all ${priceFilter === 'paid' ? 'bg-brutalBlue text-black' : 'bg-white text-black hover:bg-brutalBlue hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[2px_2px_0px_0px_var(--brutal-shadow)]'}`}
                                 >
                                     Paid
                                 </Button>
@@ -240,7 +240,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                                 setCategoryFilter('All');
                                 setPriceFilter('all');
                             }}
-                            className="w-full mt-4 rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all h-12"
+                            className="w-full mt-4 rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all h-12"
                         >
                             Reset Filters
                         </Button>
@@ -250,7 +250,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
 
             {/* Results */}
             <div className="w-full lg:w-3/4">
-                <div className="mb-6 flex justify-between items-center bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div className="mb-6 flex justify-between items-center bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                     <h2 className="font-black uppercase text-xl text-black">Results</h2>
                     <span className="font-bold text-black bg-brutalYellow border-2 border-black px-3 py-1">{filteredEvents.length} Events Found</span>
                 </div>
@@ -262,7 +262,7 @@ export default function ExploreClient({ allEvents }: { allEvents: any[] }) {
                 </div>
 
                 {filteredEvents.length === 0 && (
-                    <div className="text-center py-20 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="text-center py-20 bg-white border-4 border-black shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">
                         <h3 className="font-headline text-3xl font-black uppercase mb-4 text-black">No Matches Found</h3>
                         <p className="font-bold text-lg">Try adjusting your filters to see more events.</p>
                     </div>

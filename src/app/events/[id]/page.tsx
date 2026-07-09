@@ -11,6 +11,7 @@ import { createClient } from '@/lib/supabase/server';
 import JoinButton from './JoinButton';
 import ShareButton from './ShareButton';
 import { QRCodeSVG } from 'qrcode.react';
+import Image from 'next/image';
 
 export const revalidate = 0; // Ensures data is fresh
 
@@ -23,9 +24,9 @@ export default async function EventDetailPage({ params }: { params: { id: string
   if (!event) {
     return (
         <div className="text-center py-20 flex flex-col items-center justify-center min-h-[50vh] bg-brutalBg">
-            <h1 className="text-8xl font-black uppercase tracking-tighter text-black border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">404</h1>
+            <h1 className="text-8xl font-black uppercase tracking-tighter text-black border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">404</h1>
             <p className="text-black font-bold mt-8 text-xl bg-brutalYellow border-2 border-black px-4 py-2">Event not found. It might have been moved or deleted.</p>
-            <Button asChild variant="outline" className="mt-8 rounded-none border-4 border-black h-14 px-8 bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+            <Button asChild variant="outline" className="mt-8 rounded-none border-4 border-black h-14 px-8 bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                 <Link href="/">Go Back to Events</Link>
             </Button>
         </div>
@@ -60,7 +61,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
         </div>
 
         <div className="container pt-8 md:pt-12">
-            <Button variant="outline" asChild className="mb-12 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
+            <Button variant="outline" asChild className="mb-12 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
                 <Link href="/">
                     <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={3} />
                     Back to Events
@@ -72,15 +73,16 @@ export default async function EventDetailPage({ params }: { params: { id: string
                 <div className="lg:col-span-8 space-y-16">
                     
                     {/* Hero Image Block */}
-                    <div className="relative rounded-none border-4 md:border-8 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-brutalBlue p-2 group">
+                    <div className="relative rounded-none border-4 md:border-8 border-black shadow-[6px_6px_0px_0px_var(--brutal-shadow)] md:shadow-[12px_12px_0px_0px_var(--brutal-shadow)] bg-brutalBlue p-2 group">
                         <div className="relative w-full h-[300px] md:h-[500px] border-4 border-black overflow-hidden bg-white">
                             {event.imageUrl ? (
-                                <img
+                                <Image
                                     src={event.imageUrl}
                                     alt={event.title}
-                                    fetchpriority="high"
-                                    decoding="async"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    priority
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 100vw"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -94,7 +96,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                         
                         {/* Overlapping Title Badge */}
                         <div className="absolute -bottom-8 md:-bottom-12 right-0 md:-right-8 z-10 max-w-[100%] md:max-w-[95%]">
-                            <div className="bg-brutalYellow border-4 md:border-8 border-black p-3 md:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform -rotate-2 group-hover:rotate-0 transition-transform duration-300">
+                            <div className="bg-brutalYellow border-4 md:border-8 border-black p-3 md:p-6 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] transform -rotate-2 group-hover:rotate-0 transition-transform duration-300">
                                 <h1 className="font-headline text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase text-black drop-shadow-[2px_2px_0px_rgba(255,255,255,1)] leading-none tracking-tight break-words">{event.title}</h1>
                             </div>
                         </div>
@@ -103,9 +105,9 @@ export default async function EventDetailPage({ params }: { params: { id: string
                     <div className="pt-6 md:pt-12"></div> {/* Spacing for the overlapping title */}
 
                     {/* About Block */}
-                    <Card className="relative rounded-none border-4 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+                    <Card className="relative rounded-none border-4 border-black bg-white shadow-[6px_6px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
                         {/* Target Audience Badge overlapping top left */}
-                        <div className="absolute -top-4 -left-2 md:-top-5 md:-left-5 bg-brutalBlue text-white font-black uppercase px-3 py-1.5 md:px-4 md:py-2 border-2 md:border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-3 flex items-center text-sm md:text-base">
+                        <div className="absolute -top-4 -left-2 md:-top-5 md:-left-5 bg-brutalBlue text-white font-black uppercase px-3 py-1.5 md:px-4 md:py-2 border-2 md:border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] -rotate-3 flex items-center text-sm md:text-base">
                             <Target className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" strokeWidth={3} /> {event.targetAudience}
                         </div>
                         <CardContent className="p-5 md:p-12 mt-4">
@@ -115,12 +117,12 @@ export default async function EventDetailPage({ params }: { params: { id: string
                     </Card>
 
                     {/* Organizer Block */}
-                    <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none relative overflow-hidden">
+                    <Card className="rounded-none border-4 border-black bg-brutalGreen shadow-[6px_6px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none relative overflow-hidden">
                         {/* Decorative background shape */}
                         <div className="absolute -right-10 -top-10 text-7xl md:text-9xl text-black opacity-10 font-black rotate-12 select-none pointer-events-none">HOST</div>
                         <CardContent className="p-5 md:p-12 relative z-10">
                             <h2 className="font-headline text-2xl md:text-3xl font-black uppercase mb-6 md:mb-8 border-b-4 md:border-b-8 border-black pb-2 inline-block">Presented By</h2>
-                            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 md:gap-8 bg-white p-4 md:p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 md:gap-8 bg-white p-4 md:p-6 border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                 <Avatar className="h-20 w-20 md:h-32 md:w-32 rounded-none border-4 border-black shrink-0">
                                     <AvatarImage src={event.organizer.photoURL || ''} alt={event.organizer.displayName} />
                                     <AvatarFallback className="bg-brutalYellow rounded-none text-black font-black uppercase text-2xl md:text-4xl">{event.organizer.displayName?.charAt(0)}</AvatarFallback>
@@ -140,7 +142,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                 <div className="lg:col-span-4 space-y-8 mt-16 lg:mt-0">
                     
                     {/* The Ticket Stub */}
-                    <div className="relative bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] overflow-hidden transition-all hover:-translate-y-2 hover:shadow-[6px_12px_0px_0px_rgba(0,0,0,1)] md:hover:shadow-[12px_20px_0px_0px_rgba(0,0,0,1)] duration-300">
+                    <div className="relative bg-white border-4 border-black shadow-[6px_6px_0px_0px_var(--brutal-shadow)] md:shadow-[12px_12px_0px_0px_var(--brutal-shadow)] overflow-hidden transition-all hover:-translate-y-2 hover:shadow-[6px_12px_0px_0px_var(--brutal-shadow)] md:hover:shadow-[12px_20px_0px_0px_var(--brutal-shadow)] duration-300">
                         
                         {/* Top Cutout details */}
                         <div className="bg-brutalRed text-black border-b-4 border-black border-dashed p-4 md:p-6 text-center relative">
@@ -148,14 +150,14 @@ export default async function EventDetailPage({ params }: { params: { id: string
                             <div className="absolute -left-3 md:-left-4 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-brutalBg rounded-full border-4 border-black border-l-0"></div>
                             <div className="absolute -right-3 md:-right-4 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-brutalBg rounded-full border-4 border-black border-r-0"></div>
                             
-                            <h3 className="font-headline font-black uppercase text-2xl md:text-3xl tracking-widest text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">ADMIT ONE</h3>
+                            <h3 className="font-headline font-black uppercase text-2xl md:text-3xl tracking-widest text-white drop-shadow-[2px_2px_0px_var(--brutal-shadow)]">ADMIT ONE</h3>
                             <p className="font-bold text-xs md:text-sm mt-1 md:mt-2 uppercase bg-black text-white px-2 py-1 inline-block">General Admission</p>
                         </div>
                         
                         <div className="p-5 md:p-8 space-y-6 md:space-y-8 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]">
                             
                             <div className="flex items-start gap-4 md:gap-5">
-                                <div className="bg-brutalYellow border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[-3deg] shrink-0">
+                                <div className="bg-brutalYellow border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] rotate-[-3deg] shrink-0">
                                     <Calendar className="h-6 w-6 md:h-8 md:w-8 text-black" strokeWidth={3}/>
                                 </div>
                                 <div className="pt-1">
@@ -165,7 +167,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                             </div>
                             
                             <div className="flex items-start gap-4 md:gap-5">
-                                <div className="bg-brutalBlue border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[2deg] text-white shrink-0">
+                                <div className="bg-brutalBlue border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] rotate-[2deg] text-white shrink-0">
                                     <MapPin className="h-6 w-6 md:h-8 md:w-8" strokeWidth={3}/>
                                 </div>
                                 <div className="pt-1">
@@ -175,7 +177,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                             </div>
                             
                             <div className="flex items-start gap-4 md:gap-5">
-                                <div className="bg-brutalGreen border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[-1deg] shrink-0">
+                                <div className="bg-brutalGreen border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] rotate-[-1deg] shrink-0">
                                     <DollarSign className="h-6 w-6 md:h-8 md:w-8 text-black" strokeWidth={3}/>
                                 </div>
                                 <div className="pt-1">
@@ -185,7 +187,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
                             </div>
                             
                             <div className="flex items-start gap-4 md:gap-5">
-                                <div className="bg-brutalOrange border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[3deg] shrink-0">
+                                <div className="bg-brutalOrange border-4 border-black p-2 md:p-3 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] rotate-[3deg] shrink-0">
                                     <Users className="h-6 w-6 md:h-8 md:w-8 text-black" strokeWidth={3}/>
                                 </div>
                                 <div className="w-full pt-1">
@@ -211,7 +213,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
 
                             {/* Event QR Code */}
                             <div className="flex flex-col items-center justify-center w-full mb-8">
-                                <div className="bg-white p-2 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform hover:scale-105">
+                                <div className="bg-white p-2 border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-transform hover:scale-105">
                                     <QRCodeSVG 
                                         value={`https://evento-phi-seven.vercel.app/events/${event.id}`} 
                                         size={120} 
@@ -242,7 +244,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
 
            {relatedEvents && relatedEvents.length > 0 && (
             <div className="mt-20 md:mt-32 border-t-4 md:border-t-8 border-black pt-12 md:pt-16">
-                <h2 className="font-headline text-3xl md:text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 md:mb-16 text-black bg-brutalYellow inline-block px-4 md:px-6 py-2 md:py-3 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2">You Might Also Like</h2>
+                <h2 className="font-headline text-3xl md:text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 md:mb-16 text-black bg-brutalYellow inline-block px-4 md:px-6 py-2 md:py-3 border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] -rotate-2">You Might Also Like</h2>
                 <div className="grid grid-cols-1 gap-8 md:gap-12 sm:grid-cols-2 lg:grid-cols-3">
                     {relatedEvents.map(e => (
                         <EventCard key={e.id} event={e as any} />

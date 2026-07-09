@@ -65,14 +65,14 @@ export default async function OrganizerTrashPage() {
           </h1>
           <p className="text-black font-bold text-lg mt-2">View your previously completed or cancelled events.</p>
         </div>
-        <Button asChild variant="outline" className="w-fit rounded-none border-4 border-black font-black uppercase hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+        <Button asChild variant="outline" className="w-fit rounded-none border-4 border-black font-black uppercase hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
           <Link href="/dashboard/organizer">
             <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={3} /> Back to Dashboard
           </Link>
         </Button>
       </div>
 
-      <div className="bg-brutalRed border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex items-start gap-4">
+      <div className="bg-brutalRed border-4 border-black p-4 shadow-[8px_8px_0px_0px_var(--brutal-shadow)] flex items-start gap-4">
         <AlertTriangle className="h-8 w-8 text-white flex-shrink-0" strokeWidth={3} />
         <div>
           <h3 className="font-black uppercase text-xl text-white">Warning</h3>
@@ -82,7 +82,7 @@ export default async function OrganizerTrashPage() {
         </div>
       </div>
 
-      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+      <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] md:shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
         <CardHeader className="border-b-4 border-black pb-4">
           <CardTitle className="font-black uppercase text-2xl">Trashed Events</CardTitle>
           <CardDescription className="font-bold text-black">Events scheduled for permanent deletion.</CardDescription>
@@ -106,8 +106,8 @@ export default async function OrganizerTrashPage() {
                   <TableCell className="font-black text-lg">{event.title}</TableCell>
                   <TableCell>
                     <Badge variant="outline" className={`rounded-none border-2 border-black font-black uppercase text-xs ${
-                      event.status === 'completed' ? 'bg-brutalGreen text-black -rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 
-                      event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-dashed' : 
+                      event.status === 'completed' ? 'bg-brutalGreen text-black -rotate-2 shadow-[2px_2px_0px_0px_var(--brutal-shadow)]' : 
+                      event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 shadow-[2px_2px_0px_0px_var(--brutal-shadow)] border-dashed' : 
                       'bg-white text-gray-500'
                     }`}>
                       {event.status}
@@ -118,12 +118,12 @@ export default async function OrganizerTrashPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="outline" className="rounded-none border-2 border-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">
+                        <Button aria-haspopup="true" size="icon" variant="outline" className="rounded-none border-2 border-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">
                           <MoreHorizontal className="h-5 w-5" strokeWidth={3} />
                           <span className="sr-only">Toggle menu</span>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0 bg-white">
+                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] p-0 bg-white">
                         <DropdownMenuLabel className="font-black uppercase bg-brutalBg border-b-2 border-black text-black">Actions</DropdownMenuLabel>
                         <DropdownMenuItem asChild className="rounded-none text-black focus:bg-brutalYellow focus:text-black font-bold cursor-pointer">
                             <Link href={`/dashboard/organizer/events/${event.id}/reports`}>

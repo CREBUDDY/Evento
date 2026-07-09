@@ -28,7 +28,7 @@ export default function RootLayout({
         )}
       >
         <SettingsProvider>
-          <div className="relative flex min-h-screen flex-col overflow-hidden bg-brutalBg text-black">
+          <div className="relative flex min-h-screen flex-col bg-brutalBg text-black">
             
             <Header />
             <main className="flex-1 z-10">{children}</main>

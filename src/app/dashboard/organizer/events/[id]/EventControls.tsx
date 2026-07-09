@@ -46,11 +46,11 @@ export default function EventControls({ eventId, status }: { eventId: string, st
         <div className="flex items-center gap-2">
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                    <Button variant="outline" className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                         <StopCircle className="mr-2 h-4 w-4" /> End Event
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">
                     <DialogHeader>
                         <DialogTitle className="font-black uppercase text-xl">End Event?</DialogTitle>
                         <DialogDescription className="font-bold text-black">
@@ -58,7 +58,7 @@ export default function EventControls({ eventId, status }: { eventId: string, st
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="mt-4 flex gap-2">
-                        <Button disabled={isEnding} onClick={handleEndEvent} className="w-full rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                        <Button disabled={isEnding} onClick={handleEndEvent} className="w-full rounded-none border-4 border-black bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                             {isEnding ? <Loader2 className="animate-spin mr-2" /> : "Confirm & End"}
                         </Button>
                     </DialogFooter>
@@ -67,11 +67,11 @@ export default function EventControls({ eventId, status }: { eventId: string, st
 
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" className="rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                    <Button variant="outline" className="rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                         <XCircle className="mr-2 h-4 w-4" /> Cancel Event
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <DialogContent className="sm:max-w-[425px] rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">
                     <DialogHeader>
                         <DialogTitle className="font-black uppercase text-xl">Cancel Event?</DialogTitle>
                         <DialogDescription className="font-bold text-black">
@@ -79,7 +79,7 @@ export default function EventControls({ eventId, status }: { eventId: string, st
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="mt-4 flex gap-2">
-                        <Button disabled={isCancelling} onClick={handleCancelEvent} className="w-full rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                        <Button disabled={isCancelling} onClick={handleCancelEvent} className="w-full rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                             {isCancelling ? <Loader2 className="animate-spin mr-2" /> : "Confirm Cancellation"}
                         </Button>
                     </DialogFooter>

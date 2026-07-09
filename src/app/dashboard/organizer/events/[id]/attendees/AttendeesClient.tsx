@@ -53,7 +53,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
 
   return (
     <div className="container py-8 space-y-8">
-      <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
+      <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
           <Link href="/dashboard/organizer">
               <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={3} />
               Back to Dashboard
@@ -67,7 +67,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
         </p>
       </div>
 
-      <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_var(--brutal-shadow)]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
            <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black h-5 w-5" strokeWidth={3} />
@@ -75,7 +75,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
                   placeholder="Search by name, email or code..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                  className="pl-10 h-12 rounded-none border-4 border-black bg-brutalBg font-bold text-black focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all"
               />
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
                   <TableCell className="font-black text-lg">{attendee.user.displayName}</TableCell>
                   <TableCell className="font-bold">{attendee.user.email || 'N/A'}</TableCell>
                   <TableCell>
-                      <code className="bg-white border-2 border-black px-2 py-1 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">{attendee.verificationCode.substring(0,8)}...</code>
+                      <code className="bg-white border-2 border-black px-2 py-1 font-bold shadow-[2px_2px_0px_0px_var(--brutal-shadow)]">{attendee.verificationCode.substring(0,8)}...</code>
                   </TableCell>
                   <TableCell>
                     <Badge variant={attendee.verified ? 'default' : 'secondary'} className={`rounded-none border-2 border-black font-black uppercase text-xs ${attendee.verified ? 'bg-brutalGreen text-black' : 'bg-brutalBg text-black'}`}>
@@ -109,12 +109,12 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
                   <TableCell className="text-right">
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button size="sm" variant="destructive" className="rounded-none border-2 border-black font-black uppercase hover:bg-brutalRed shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                        <Button size="sm" variant="destructive" className="rounded-none border-2 border-black font-black uppercase hover:bg-brutalRed shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
                           <UserX className="h-4 w-4 mr-2" strokeWidth={3} />
                           Remove
                         </Button>
                       </AlertDialogTrigger>
-                      <AlertDialogContent className="rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
+                      <AlertDialogContent className="rounded-none border-4 border-black shadow-[8px_8px_0px_0px_var(--brutal-shadow)] bg-white">
                         <AlertDialogHeader>
                           <AlertDialogTitle className="font-black uppercase text-2xl">Remove Attendee?</AlertDialogTitle>
                           <AlertDialogDescription className="font-bold text-black border-l-4 border-brutalRed pl-4 bg-brutalBg p-2">
@@ -123,7 +123,7 @@ export default function AttendeesClient({ event, initialAttendees }: { event: an
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel className="rounded-none border-4 border-black font-black uppercase hover:bg-brutalBg transition-all">Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleRemove(attendee.id)} className="rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                          <AlertDialogAction onClick={() => handleRemove(attendee.id)} className="rounded-none border-4 border-black bg-brutalRed text-black font-black uppercase hover:bg-brutalRed shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                             Yes, Remove
                           </AlertDialogAction>
                         </AlertDialogFooter>

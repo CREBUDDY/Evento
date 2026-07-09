@@ -132,7 +132,7 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
             <div className="flex items-center gap-4 w-full md:w-auto">
               <div className="relative flex-1 md:w-[300px]">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black h-5 w-5 font-black" />
-                <Input placeholder="Search events..." className="pl-12 h-14 rounded-none border-4 border-black bg-brutalBg text-black font-bold focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all" />
+                <Input placeholder="Search events..." className="pl-12 h-14 rounded-none border-4 border-black bg-brutalBg text-black font-bold focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all" />
               </div>
               <Button asChild className="h-14 rounded-none border-4 border-black bg-brutalPurple hover:bg-brutalPurple text-black shadow-brutal hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all hidden sm:flex font-black uppercase">
                 <Link href="/explore">
@@ -146,9 +146,9 @@ export default function HomePageClient({ allEvents }: { allEvents: any[] }) {
           <Tabs defaultValue="all" className="w-full">
             <div className="mb-12 border-b-4 border-black pb-4 overflow-x-auto">
               <TabsList className="bg-transparent flex w-max space-x-2 sm:space-x-4 p-0">
-                <TabsTrigger value="all" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">All</TabsTrigger>
-                <TabsTrigger value="free" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">Free</TabsTrigger>
-                <TabsTrigger value="paid" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm sm:text-base">Paid</TabsTrigger>
+                <TabsTrigger value="all" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all text-sm sm:text-base">All</TabsTrigger>
+                <TabsTrigger value="free" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all text-sm sm:text-base">Free</TabsTrigger>
+                <TabsTrigger value="paid" className="rounded-none border-4 border-black bg-white px-6 py-2 sm:px-8 sm:py-3 font-black uppercase text-black data-[state=active]:bg-brutalGreen data-[state=active]:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all text-sm sm:text-base">Paid</TabsTrigger>
               </TabsList>
             </div>
             

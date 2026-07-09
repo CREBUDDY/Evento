@@ -30,7 +30,7 @@ export default function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <Button asChild className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-white w-full mt-4 h-12 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+            <Button asChild className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-white w-full mt-4 h-12 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
               <Link href="/dashboard/organizer">
                 Go to Organizer View <ArrowRight className="ml-2 h-5 w-5" strokeWidth={3} />
               </Link>
@@ -49,7 +49,7 @@ export default function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <Button asChild className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-white w-full mt-4 h-12 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+            <Button asChild className="rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-white w-full mt-4 h-12 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
               <Link href="/dashboard/attendee">
                 Go to Attendee View <ArrowRight className="ml-2 h-5 w-5" strokeWidth={3} />
               </Link>

@@ -52,9 +52,9 @@ export default async function EventDashboard({ params }: { params: { id: string 
           <div>
             <div className="flex items-center gap-3 mb-2">
               <Badge variant="outline" className={`rounded-none border-2 border-black font-black uppercase ${
-                event.status === 'published' ? 'bg-brutalBlue text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 
-                event.status === 'completed' ? 'bg-brutalGreen text-black -rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 
-                event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-dashed' : 
+                event.status === 'published' ? 'bg-brutalBlue text-white shadow-[2px_2px_0px_0px_var(--brutal-shadow)]' : 
+                event.status === 'completed' ? 'bg-brutalGreen text-black -rotate-2 shadow-[2px_2px_0px_0px_var(--brutal-shadow)]' : 
+                event.status === 'cancelled' ? 'bg-brutalRed text-white rotate-2 shadow-[2px_2px_0px_0px_var(--brutal-shadow)] border-dashed' : 
                 'bg-white text-gray-500'
               }`}>
                 {event.status}
@@ -77,25 +77,25 @@ export default async function EventDashboard({ params }: { params: { id: string 
 
       {/* Grid Menu */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
+        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
             <Link href={`/dashboard/organizer/events/${event.id}/approvals`}>
                 <ClipboardList className="h-6 w-6" strokeWidth={3} />
                 Approvals
             </Link>
         </Button>
-        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
+        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
             <Link href={`/dashboard/organizer/events/${event.id}/attendees`}>
                 <Users className="h-6 w-6" strokeWidth={3} />
                 Attendees
             </Link>
         </Button>
-        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-gray-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
+        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-gray-200 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
             <Link href={`/dashboard/organizer/events/${event.id}/reports`}>
                 <FileText className="h-6 w-6" strokeWidth={3} />
                 Reports
             </Link>
         </Button>
-        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
+        <Button asChild variant="outline" className="h-24 rounded-none border-4 border-black bg-white text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all flex flex-col items-center justify-center gap-2">
             <Link href={`/creato/${event.id}/edit`}>
                 <Settings className="h-6 w-6" strokeWidth={3} />
                 Settings

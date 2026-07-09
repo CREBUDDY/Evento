@@ -34,7 +34,7 @@ export default function DraftsPage() {
         </div>
       </div>
 
-      <Card className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+      <Card className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
         <CardHeader className="border-b-4 border-black pb-4">
           <CardTitle className="font-black uppercase text-2xl">My Draft Events</CardTitle>
           <CardDescription className="font-bold text-black">A list of your saved event drafts.</CardDescription>
@@ -62,12 +62,12 @@ export default function DraftsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="outline" className="rounded-none border-2 border-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">
+                        <Button aria-haspopup="true" size="icon" variant="outline" className="rounded-none border-2 border-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">
                           <MoreHorizontal className="h-5 w-5" strokeWidth={3} />
                           <span className="sr-only">Toggle menu</span>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0">
+                      <DropdownMenuContent align="end" className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] p-0">
                         <DropdownMenuLabel className="font-black uppercase bg-brutalBg border-b-2 border-black text-black">Actions</DropdownMenuLabel>
                         <DropdownMenuItem className="rounded-none focus:bg-brutalYellow font-bold cursor-pointer">Edit</DropdownMenuItem>
                         <DropdownMenuItem className="rounded-none focus:bg-brutalYellow font-bold cursor-pointer">Publish</DropdownMenuItem>
@@ -82,7 +82,7 @@ export default function DraftsPage() {
            {!isLoading && draftEvents?.length === 0 && (
                 <div className="text-center py-16">
                     <p className="text-black font-bold text-lg">You have no saved drafts.</p>
-                    <Button asChild variant="outline" className="mt-4 rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                    <Button asChild variant="outline" className="mt-4 rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                         <Link href="/creato">Create a new event</Link>
                     </Button>
                 </div>

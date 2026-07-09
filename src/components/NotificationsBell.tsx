@@ -104,7 +104,7 @@ export default function NotificationsBell() {
   return (
     <DropdownMenu onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-none border-2 border-black bg-brutalYellow hover:bg-brutalYellow shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all p-0">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-none border-2 border-black bg-brutalYellow hover:bg-brutalYellow shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all p-0">
           <Bell className="h-5 w-5 text-black" strokeWidth={3} />
           {unreadCount > 0 && (
             <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-black bg-brutalRed text-xs font-black text-white">
@@ -113,7 +113,7 @@ export default function NotificationsBell() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-80 rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0" align="end" forceMount>
+      <DropdownMenuContent className="w-80 rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] p-0" align="end" forceMount>
         <div className="p-3 bg-brutalPurple text-white border-b-4 border-black flex items-center justify-between">
           <DropdownMenuLabel className="font-black uppercase text-xl p-0">Notifications</DropdownMenuLabel>
           <Bell className="h-5 w-5" strokeWidth={3} />

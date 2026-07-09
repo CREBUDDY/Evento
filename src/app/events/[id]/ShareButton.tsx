@@ -45,7 +45,7 @@ export default function ShareButton({ title }: ShareButtonProps) {
             toast({
                 title: "Link Copied! 📋",
                 description: "The event link has been copied to your clipboard. Share it anywhere!",
-                className: "border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none bg-brutalGreen text-black font-bold",
+                className: "border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] rounded-none bg-brutalGreen text-black font-bold",
             });
         }).catch((err) => {
             console.error('Failed to copy: ', err);
@@ -61,7 +61,7 @@ export default function ShareButton({ title }: ShareButtonProps) {
         <Button 
             onClick={handleShare}
             variant="outline" 
-            className="w-full rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all h-14 text-lg"
+            className="w-full rounded-none border-4 border-black bg-brutalBlue text-black font-black uppercase hover:bg-brutalBlue shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all h-14 text-lg"
         >
             <Share2 className="mr-3 h-6 w-6" strokeWidth={3}/> Share Event
         </Button>

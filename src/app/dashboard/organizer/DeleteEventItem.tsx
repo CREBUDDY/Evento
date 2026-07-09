@@ -48,7 +48,7 @@ export default function DeleteEventItem({ eventId }: { eventId: string }) {
                     {isDeleting ? <Loader2 className="animate-spin h-4 w-4" /> : <Trash2 className="h-4 w-4" />}
                 </DropdownMenuItem>
             </AlertDialogTrigger>
-            <AlertDialogContent className="rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white text-black">
+            <AlertDialogContent className="rounded-none border-4 border-black shadow-[8px_8px_0px_0px_var(--brutal-shadow)] bg-white text-black">
                 <AlertDialogHeader>
                     <AlertDialogTitle className="font-black uppercase text-2xl text-brutalRed">Delete this event?</AlertDialogTitle>
                     <AlertDialogDescription className="font-bold text-gray-700">
@@ -56,8 +56,8 @@ export default function DeleteEventItem({ eventId }: { eventId: string }) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className="rounded-none border-2 border-black font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete} className="rounded-none border-2 border-black bg-brutalRed text-white hover:bg-red-700 font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                    <AlertDialogCancel className="rounded-none border-2 border-black font-black uppercase shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDelete} className="rounded-none border-2 border-black bg-brutalRed text-white hover:bg-red-700 font-black uppercase shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
                         Yes, delete it
                     </AlertDialogAction>
                 </AlertDialogFooter>

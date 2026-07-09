@@ -29,7 +29,7 @@ export default function InteractiveBlock({ className, initialColorClass = 'bg-br
 
   return (
     <div 
-      className={cn("border-2 border-black transition-colors duration-200 cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]", color, className)}
+      className={cn("border-2 border-black transition-colors duration-200 cursor-pointer shadow-[2px_2px_0px_0px_var(--brutal-shadow)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]", color, className)}
       onMouseEnter={handleMouseEnter}
     ></div>
   );

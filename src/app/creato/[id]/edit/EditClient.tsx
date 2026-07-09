@@ -200,7 +200,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
             </div>
             
             <div className="relative z-10 mx-auto max-w-3xl">
-                <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
+                <Button variant="outline" asChild className="mb-8 rounded-none border-4 border-black bg-white text-black font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all">
                     <Link href="/">
                         <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={3} />
                         Back to Events
@@ -220,7 +220,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                             <FormItem>
                             <FormLabel className="font-black uppercase text-black">Event Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="e.g., Nexus Hackathon 2025" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                <Input placeholder="e.g., Nexus Hackathon 2025" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -234,7 +234,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                             <FormItem>
                             <FormLabel className="font-black uppercase text-black">Description</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Tell us more about your event..." {...field} className="rounded-none border-4 border-black bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black min-h-[120px]" />
+                                <Textarea placeholder="Tell us more about your event..." {...field} className="rounded-none border-4 border-black bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black min-h-[120px]" />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -250,11 +250,11 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormLabel className="font-black uppercase text-black">Category</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase">
+                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase">
                                         <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                         {categories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                                     </SelectContent>
                                     </Select>
@@ -270,11 +270,11 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormLabel className="font-black uppercase text-black">Target Audience</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase">
+                                        <SelectTrigger className="rounded-none border-4 border-black h-14 bg-brutalBg focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase">
                                         <SelectValue placeholder="Select target audience" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                    <SelectContent className="rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]">
                                         {audiences.map(aud => <SelectItem key={aud} value={aud}>{aud}</SelectItem>)}
                                     </SelectContent>
                                     </Select>
@@ -297,7 +297,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                             <Button
                                             variant={"outline"}
                                             className={cn(
-                                                "w-full justify-start text-left font-bold rounded-none border-4 border-black h-14 bg-brutalBg hover:bg-brutalBg hover:text-black focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all",
+                                                "w-full justify-start text-left font-bold rounded-none border-4 border-black h-14 bg-brutalBg hover:bg-brutalBg hover:text-black focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                             >
@@ -306,7 +306,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                             </Button>
                                         </FormControl>
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0 rounded-none border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" align="start">
+                                        <PopoverContent className="w-auto p-0 rounded-none border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)]" align="start">
                                         <Calendar
                                             mode="single"
                                             selected={field.value}
@@ -322,7 +322,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                         render={({ field }) => (
                                             <FormItem className="m-0">
                                                 <FormControl>
-                                                    <Input type="time" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black uppercase" />
+                                                    <Input type="time" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black uppercase" />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -342,7 +342,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Venue</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., Main Auditorium" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input placeholder="e.g., Main Auditorium" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -355,7 +355,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Venue Address</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., 123 Tech Park, Silicon Valley" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input placeholder="e.g., 123 Tech Park, Silicon Valley" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -371,7 +371,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Capacity</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="e.g., 200" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input type="number" placeholder="e.g., 200" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -384,7 +384,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                     <FormItem>
                                     <FormLabel className="font-black uppercase text-black">Entry Fee (₹)</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Enter 0 for free events" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                        <Input type="number" placeholder="Enter 0 for free events" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -399,7 +399,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                 <FormItem>
                                 <FormLabel className="font-black uppercase text-black">Event Banner URL</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="https://example.com/banner.jpg" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all font-bold text-black" />
+                                    <Input placeholder="https://example.com/banner.jpg" {...field} className="rounded-none border-4 border-black h-14 bg-brutalBg focus-visible:ring-0 focus-visible:shadow-[4px_4px_0px_0px_var(--brutal-shadow)] transition-all font-bold text-black" />
                                 </FormControl>
                                 <FormDescription className="font-bold border-l-4 border-black pl-2">
                                     Link to the official banner or poster for your event.
@@ -413,7 +413,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                             control={form.control}
                             name="requiresApproval"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center justify-between rounded-none border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
+                                <FormItem className="flex flex-row items-center justify-between rounded-none border-4 border-black p-4 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] bg-white">
                                     <div className="space-y-0.5">
                                         <FormLabel className="text-base font-black uppercase text-black">
                                             Require Manual Approval
@@ -434,12 +434,12 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                         />
 
                         <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-8 border-t-4 border-black">
-                             <Button type="button" variant="outline" onClick={() => handleFormSubmit(form.getValues(), 'draft')} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                             <Button type="button" variant="outline" onClick={() => handleFormSubmit(form.getValues(), 'draft')} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 font-black uppercase shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                                 Save as Draft
                             </Button>
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button type="button" variant="outline" size="icon" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-14 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all hidden sm:flex">
+                                    <Button type="button" variant="outline" size="icon" onClick={handlePreview} disabled={isSubmitting} className="rounded-none border-4 border-black h-14 w-14 shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none hover:bg-brutalYellow transition-all hidden sm:flex">
                                         <Eye className="h-6 w-6" strokeWidth={3} />
                                         <span className="sr-only">Preview</span>
                                     </Button>
@@ -456,7 +456,7 @@ export default function EditClient({ initialEvent }: EditClientProps) {
                                 )}
                             </Dialog>
 
-                            <Button type="submit" disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
+                            <Button type="submit" disabled={isSubmitting} className="rounded-none border-4 border-black h-14 px-8 bg-brutalGreen text-black font-black uppercase hover:bg-brutalGreen shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all">
                                 {isSubmitting ? "Updating..." : "Update Event"}
                             </Button>
                         </div>

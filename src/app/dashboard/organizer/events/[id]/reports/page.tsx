@@ -47,14 +47,14 @@ export default async function ReportsPage({ params }: { params: { id: string } }
       {event.status !== 'completed' ? (
         <Card className="rounded-none border-4 border-black bg-brutalBg shadow-brutal text-center py-20 px-4 text-black">
             <CardContent className="flex flex-col items-center justify-center space-y-6">
-                <div className="h-24 w-24 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center rounded-full mb-2">
+                <div className="h-24 w-24 bg-white border-4 border-black shadow-[4px_4px_0px_0px_var(--brutal-shadow)] flex items-center justify-center rounded-full mb-2">
                     <Lock className="h-10 w-10 text-black" />
                 </div>
                 <CardTitle className="font-black uppercase text-3xl">Reports Locked</CardTitle>
                 <CardDescription className="font-bold text-xl text-black max-w-md mx-auto">
                     Full analytics and exportable reports are only available after an event has been marked as <strong>Completed</strong>.
                 </CardDescription>
-                <Button asChild className="rounded-none border-4 border-black bg-brutalYellow text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all mt-4">
+                <Button asChild className="rounded-none border-4 border-black bg-brutalYellow text-black font-black uppercase hover:bg-brutalYellow shadow-[4px_4px_0px_0px_var(--brutal-shadow)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all mt-4">
                     <Link href={`/dashboard/organizer/events/${id}`}>
                         Return to Dashboard
                     </Link>
@@ -64,7 +64,7 @@ export default async function ReportsPage({ params }: { params: { id: string } }
       ) : (
         <>
             <div className="grid gap-6 md:grid-cols-3">
-                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
+                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] text-black">
                     <CardHeader className="border-b-4 border-black bg-brutalBlue">
                         <CardTitle className="font-black uppercase text-xl flex items-center gap-2"><Users className="h-5 w-5" /> Attendance Analytics</CardTitle>
                     </CardHeader>
@@ -88,7 +88,7 @@ export default async function ReportsPage({ params }: { params: { id: string } }
                     </CardContent>
                 </Card>
 
-                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
+                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] text-black">
                     <CardHeader className="border-b-4 border-black bg-brutalGreen">
                         <CardTitle className="font-black uppercase text-xl flex items-center gap-2"><DollarSign className="h-5 w-5" /> Revenue Analytics</CardTitle>
                     </CardHeader>
@@ -112,7 +112,7 @@ export default async function ReportsPage({ params }: { params: { id: string } }
                     </CardContent>
                 </Card>
 
-                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black">
+                <Card className="rounded-none border-4 border-black bg-white shadow-[4px_4px_0px_0px_var(--brutal-shadow)] text-black">
                     <CardHeader className="border-b-4 border-black bg-brutalYellow">
                         <CardTitle className="font-black uppercase text-xl flex items-center gap-2"><Activity className="h-5 w-5" /> Engagement Stats</CardTitle>
                     </CardHeader>
@@ -133,7 +133,7 @@ export default async function ReportsPage({ params }: { params: { id: string } }
                 </Card>
             </div>
             
-            <Card className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-black">
+            <Card className="rounded-none border-4 border-black bg-white shadow-[8px_8px_0px_0px_var(--brutal-shadow)] text-black">
                 <CardHeader className="border-b-4 border-black pb-4">
                     <CardTitle className="font-black uppercase text-2xl">Export Data</CardTitle>
                     <CardDescription className="font-bold text-black">Download full attendee rosters and financial data in your preferred format.</CardDescription>

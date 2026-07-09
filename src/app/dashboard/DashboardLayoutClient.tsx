@@ -44,7 +44,7 @@ function SidebarNav({ className }: { className?: string }) {
                 <Link key={item.href} href={item.href}>
                   <div
                     className={cn(
-                      "flex items-center w-full justify-start px-4 py-3 border-4 border-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]",
+                      "flex items-center w-full justify-start px-4 py-3 border-4 border-black transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none shadow-[4px_4px_0px_0px_var(--brutal-shadow)]",
                       isActive ? "bg-brutalGreen text-black" : "bg-white text-black hover:bg-brutalYellow"
                     )}
                   >
