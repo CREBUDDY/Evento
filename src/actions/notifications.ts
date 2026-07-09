@@ -1,23 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { createClient } from "@/lib/supabase/server";
 
-export async function checkNewPublishedEvents(lastCheckedTimestamp: number) {
+export async function getEventNotificationDetails(eventId: string) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    // Query for any events published after the last checked time
-    // Exclude the current user's events if they are logged in
-    const newEvents = await prisma.event.findMany({
+    const event = await prisma.event.findUnique({
       where: {
-        status: "published",
-        updatedAt: {
-          gt: new Date(lastCheckedTimestamp)
-        },
-        // If user is logged in, don't notify them of their own events going live
-        ...(user?.id ? { organizerId: { not: user.id } } : {})
+        id: eventId,
       },
       select: {
         id: true,
@@ -29,15 +18,12 @@ export async function checkNewPublishedEvents(lastCheckedTimestamp: number) {
             email: true
           }
         }
-      },
-      orderBy: {
-        updatedAt: "desc"
       }
     });
 
-    return { events: newEvents };
+    return { event };
   } catch (error) {
-    console.error("Error checking new events:", error);
-    return { events: [] };
+    console.error("Error getting event notification details:", error);
+    return { event: null };
   }
 }

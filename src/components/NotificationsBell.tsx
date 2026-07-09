@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Bell } from "lucide-react";
 import { Button } from "./ui/button";
-import { checkNewPublishedEvents } from "@/actions/notifications";
+import { getEventNotificationDetails } from "@/actions/notifications";
 import { useToast } from "@/hooks/use-toast";
 import { useSettings } from "@/contexts/SettingsContext";
 import {
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
+import { createClient } from "@/lib/supabase/client";
 
 type NotificationEvent = {
   id: string;
@@ -30,46 +31,68 @@ type NotificationEvent = {
 export default function NotificationsBell() {
   const [notifications, setNotifications] = useState<NotificationEvent[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
-  const lastCheckedRef = useRef<number>(Date.now());
   const { toast } = useToast();
   const { soundEnabled, triggerHaptic, playNotificationSound } = useSettings();
 
   useEffect(() => {
-    // Poll every 15 seconds
-    const interval = setInterval(async () => {
-      const { events } = await checkNewPublishedEvents(lastCheckedRef.current);
-      
-      if (events && events.length > 0) {
-        // Update last checked to the most recent event's timestamp + 1ms to avoid dupes
-        const mostRecent = new Date(events[0].updatedAt).getTime();
-        lastCheckedRef.current = mostRecent + 1;
+    const supabase = createClient();
 
+    const handleNewEvent = async (payload: any) => {
+      // payload.new will have the raw Event row
+      const eventId = payload.new.id;
+      
+      const { event } = await getEventNotificationDetails(eventId);
+      
+      if (event) {
         setNotifications((prev) => {
-          const newMap = new Map([...events, ...prev].map(e => [e.id, e]));
-          return Array.from(newMap.values()).slice(0, 10); // keep last 10
+          // Check if we already have this notification to avoid duplicates
+          if (prev.some(n => n.id === event.id)) return prev;
+          
+          return [event, ...prev].slice(0, 10); // keep last 10
         });
 
-        setUnreadCount((prev) => prev + events.length);
+        setUnreadCount((prev) => prev + 1);
 
-        // Play sounds and haptics for the new event(s)
+        // Play sounds and haptics for the new event
         if (soundEnabled) {
           playNotificationSound();
         }
         triggerHaptic();
 
-        // Trigger toasts
-        events.forEach(event => {
-          const organizerName = event.organizer?.name || event.organizer?.email?.split('@')[0] || "Someone";
-          toast({
-            title: "🎉 New Event Live!",
-            description: `${organizerName} just published "${event.title}"`,
-            className: "bg-brutalPurple text-white border-4 border-black",
-          });
+        // Trigger toast
+        const organizerName = event.organizer?.name || event.organizer?.email?.split('@')[0] || "Someone";
+        toast({
+          title: "🎉 New Event Live!",
+          description: `${organizerName} just published "${event.title}"`,
+          className: "bg-brutalPurple text-white border-4 border-black",
         });
       }
-    }, 15000);
+    };
 
-    return () => clearInterval(interval);
+    const channel = supabase
+      .channel('public:Event')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'Event', filter: 'status=eq.published' },
+        (payload) => {
+          // Check if it's newly published (wasn't published before)
+          if (payload.old?.status !== 'published') {
+            handleNewEvent(payload);
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'Event', filter: 'status=eq.published' },
+        (payload) => {
+          handleNewEvent(payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [soundEnabled, playNotificationSound, triggerHaptic, toast]);
 
   const handleOpenChange = (open: boolean) => {
