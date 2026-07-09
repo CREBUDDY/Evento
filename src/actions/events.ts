@@ -93,6 +93,23 @@ export async function createEvent(data: any) {
         requiresApproval: data.requiresApproval === true
       }
     });
+
+    if (event.status === 'published') {
+      try {
+        await prisma.notification.create({
+          data: {
+            title: `🎉 New Event Live!`,
+            message: `${user.user_metadata?.full_name || user.email?.split('@')[0] || 'Someone'} just published "${event.title}"`,
+            type: "event",
+            link: `/events/${event.id}`,
+            userId: null // Global
+          }
+        });
+      } catch(e) {
+        console.error("Failed to create global notification", e);
+      }
+    }
+
     revalidatePath('/');
     revalidatePath('/dashboard/organizer');
     return event;

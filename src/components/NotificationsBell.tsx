@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Bell } from "lucide-react";
 import { Button } from "./ui/button";
-import { getEventNotificationDetails } from "@/actions/notifications";
+import { fetchNotifications, markNotificationsAsRead } from "@/actions/notifications";
 import { useToast } from "@/hooks/use-toast";
 import { useSettings } from "@/contexts/SettingsContext";
 import {
@@ -18,95 +18,87 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { createClient } from "@/lib/supabase/client";
 
-type NotificationEvent = {
+type NotificationItem = {
   id: string;
   title: string;
-  updatedAt: Date;
-  organizer: {
-    displayName: string | null;
-    email: string | null;
-  } | null;
+  message: string;
+  link: string | null;
+  createdAt: Date;
 };
 
 export default function NotificationsBell() {
-  const [notifications, setNotifications] = useState<NotificationEvent[]>([]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const { toast } = useToast();
   const { soundEnabled, triggerHaptic, playNotificationSound, pushNotificationsEnabled } = useSettings();
+  
+  const fetchedIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    const supabase = createClient();
+    let intervalId: NodeJS.Timeout;
 
-    const handleNewEvent = async (payload: any) => {
-      // payload.new will have the raw Event row
-      const eventId = payload.new.id;
+    const loadNotifications = async (isInitialLoad = false) => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      const userId = user?.id || "";
+      if (user?.id) setCurrentUserId(user.id);
       
-      const { event } = await getEventNotificationDetails(eventId);
+      const { notifications: fetchedNotifs, unreadCount: fetchedUnread } = await fetchNotifications(userId);
       
-      if (event) {
-        setNotifications((prev) => {
-          // Check if we already have this notification to avoid duplicates
-          if (prev.some(n => n.id === event.id)) return prev;
-          
-          return [event, ...prev].slice(0, 10); // keep last 10
-        });
-
-        setUnreadCount((prev) => prev + 1);
-
-        // Play sounds and haptics for the new event
-        if (soundEnabled) {
-          playNotificationSound();
-        }
-        triggerHaptic();
-
-        const organizerName = event.organizer?.displayName || event.organizer?.email?.split('@')[0] || "Someone";
+      if (fetchedNotifs) {
+        setNotifications(fetchedNotifs);
+        setUnreadCount(fetchedUnread);
         
-        // Native Push Notification
-        if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
-          new Notification("🎉 New Event Live!", {
-            body: `${organizerName} just published "${event.title}"`,
-            icon: '/favicon.ico',
-          });
-        }
+        if (!isInitialLoad) {
+          // Check for strictly new notifications that weren't in the previous fetch
+          const newNotifs = fetchedNotifs.filter(n => !fetchedIds.current.has(n.id) && new Date(n.createdAt).getTime() > Date.now() - 60000);
+          
+          if (newNotifs.length > 0) {
+             const latest = newNotifs[0];
+             // Play sounds and haptics
+             if (soundEnabled) playNotificationSound();
+             triggerHaptic();
+             
+             // Native Push Notification
+             if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+               new Notification(latest.title, {
+                 body: latest.message,
+                 icon: '/favicon.ico',
+               });
+             }
 
-        // Trigger toast (In-app notification)
-        toast({
-          title: "🎉 New Event Live!",
-          description: `${organizerName} just published "${event.title}"`,
-          className: "bg-brutalPurple text-white border-4 border-black",
-        });
+             // In-app toast
+             toast({
+               title: latest.title,
+               description: latest.message,
+               className: "bg-brutalPurple text-white border-4 border-black",
+             });
+          }
+        }
+        
+        // Update known IDs
+        fetchedIds.current = new Set(fetchedNotifs.map(n => n.id));
       }
     };
 
-    const channel = supabase
-      .channel('public:Event')
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'Event', filter: 'status=eq.published' },
-        (payload) => {
-          // Check if it's newly published (wasn't published before)
-          if (payload.old?.status !== 'published') {
-            handleNewEvent(payload);
-          }
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'Event', filter: 'status=eq.published' },
-        (payload) => {
-          handleNewEvent(payload);
-        }
-      )
-      .subscribe();
+    loadNotifications(true); // Initial load
+
+    intervalId = setInterval(() => {
+      loadNotifications(false);
+    }, 15000); // Poll every 15 seconds
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(intervalId);
     };
-  }, [soundEnabled, playNotificationSound, triggerHaptic, toast, pushNotificationsEnabled]);
+  }, [soundEnabled, triggerHaptic, playNotificationSound, pushNotificationsEnabled, toast]);
 
-  const handleOpenChange = (open: boolean) => {
+  const handleOpenChange = async (open: boolean) => {
     if (open && unreadCount > 0) {
       setUnreadCount(0);
+      if (currentUserId) {
+         await markNotificationsAsRead(currentUserId);
+      }
     }
   };
 
@@ -138,13 +130,13 @@ export default function NotificationsBell() {
             {notifications.map((notif, idx) => (
               <div key={notif.id}>
                 <DropdownMenuItem asChild className="p-4 hover:bg-brutalYellow focus:bg-brutalYellow rounded-none cursor-pointer transition-colors block">
-                  <Link href={`/events/${notif.id}`}>
+                  <Link href={notif.link || "#"}>
                     <p className="font-black uppercase text-black mb-1 line-clamp-1">{notif.title}</p>
-                    <p className="text-sm text-gray-700 font-bold mb-2">
-                        Hosted by {notif.organizer?.displayName || notif.organizer?.email?.split('@')[0] || "Someone"}
+                    <p className="text-sm text-gray-700 font-bold mb-2 line-clamp-2">
+                        {notif.message}
                     </p>
                     <p className="text-xs text-gray-500 font-bold">
-                        {formatDistanceToNow(new Date(notif.updatedAt), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true })}
                     </p>
                   </Link>
                 </DropdownMenuItem>
