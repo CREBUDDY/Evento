@@ -14,7 +14,7 @@ export async function getEventNotificationDetails(eventId: string) {
         updatedAt: true,
         organizer: {
           select: {
-            name: true,
+            displayName: true,
             email: true
           }
         }

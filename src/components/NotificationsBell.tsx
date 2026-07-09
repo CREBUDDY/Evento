@@ -23,8 +23,8 @@ type NotificationEvent = {
   title: string;
   updatedAt: Date;
   organizer: {
-    name: string | null;
-    email: string;
+    displayName: string | null;
+    email: string | null;
   } | null;
 };
 
@@ -32,7 +32,7 @@ export default function NotificationsBell() {
   const [notifications, setNotifications] = useState<NotificationEvent[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const { toast } = useToast();
-  const { soundEnabled, triggerHaptic, playNotificationSound } = useSettings();
+  const { soundEnabled, triggerHaptic, playNotificationSound, pushNotificationsEnabled } = useSettings();
 
   useEffect(() => {
     const supabase = createClient();
@@ -59,8 +59,17 @@ export default function NotificationsBell() {
         }
         triggerHaptic();
 
-        // Trigger toast
-        const organizerName = event.organizer?.name || event.organizer?.email?.split('@')[0] || "Someone";
+        const organizerName = event.organizer?.displayName || event.organizer?.email?.split('@')[0] || "Someone";
+        
+        // Native Push Notification
+        if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+          new Notification("🎉 New Event Live!", {
+            body: `${organizerName} just published "${event.title}"`,
+            icon: '/favicon.ico',
+          });
+        }
+
+        // Trigger toast (In-app notification)
         toast({
           title: "🎉 New Event Live!",
           description: `${organizerName} just published "${event.title}"`,
@@ -93,7 +102,7 @@ export default function NotificationsBell() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [soundEnabled, playNotificationSound, triggerHaptic, toast]);
+  }, [soundEnabled, playNotificationSound, triggerHaptic, toast, pushNotificationsEnabled]);
 
   const handleOpenChange = (open: boolean) => {
     if (open && unreadCount > 0) {
@@ -132,7 +141,7 @@ export default function NotificationsBell() {
                   <Link href={`/events/${notif.id}`}>
                     <p className="font-black uppercase text-black mb-1 line-clamp-1">{notif.title}</p>
                     <p className="text-sm text-gray-700 font-bold mb-2">
-                        Hosted by {notif.organizer?.name || notif.organizer?.email?.split('@')[0] || "Someone"}
+                        Hosted by {notif.organizer?.displayName || notif.organizer?.email?.split('@')[0] || "Someone"}
                     </p>
                     <p className="text-xs text-gray-500 font-bold">
                         {formatDistanceToNow(new Date(notif.updatedAt), { addSuffix: true })}

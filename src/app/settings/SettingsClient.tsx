@@ -3,12 +3,12 @@
 import { useSettings } from "@/contexts/SettingsContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrutalSwitch } from "@/components/ui/brutal-switch";
-import { Moon, Sun, Vibrate, Volume2, Database } from "lucide-react";
+import { Moon, Sun, Vibrate, Volume2, Database, BellRing } from "lucide-react";
 import OrganizerCleanupControls from "../dashboard/organizer/OrganizerCleanupControls";
 import AttendeeCleanupControls from "../dashboard/attendee/AttendeeCleanupControls";
 
 export default function SettingsClient() {
-  const { theme, setTheme, hapticsEnabled, setHapticsEnabled, soundEnabled, setSoundEnabled, triggerHaptic, playNotificationSound } = useSettings();
+  const { theme, setTheme, hapticsEnabled, setHapticsEnabled, soundEnabled, setSoundEnabled, pushNotificationsEnabled, setPushNotificationsEnabled, triggerHaptic, playNotificationSound } = useSettings();
 
   const handleThemeChange = (checked: boolean) => {
     setTheme(checked ? "dark" : "light");
@@ -30,6 +30,27 @@ export default function SettingsClient() {
       setTimeout(() => playNotificationSound(), 50);
     }
     triggerHaptic();
+  };
+
+  const handlePushNotificationsChange = async (checked: boolean) => {
+    if (checked) {
+      if ("Notification" in window) {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          setPushNotificationsEnabled(true);
+          triggerHaptic();
+          playNotificationSound();
+        } else {
+          setPushNotificationsEnabled(false);
+          alert("Please allow notifications in your browser settings to enable this feature.");
+        }
+      } else {
+        alert("Your browser does not support push notifications.");
+      }
+    } else {
+      setPushNotificationsEnabled(false);
+      triggerHaptic();
+    }
   };
 
   return (
@@ -92,6 +113,23 @@ export default function SettingsClient() {
               <BrutalSwitch 
                 checked={soundEnabled} 
                 onCheckedChange={handleSoundChange} 
+              />
+            </div>
+
+            {/* Push Notifications Toggle */}
+            <div className="flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-black text-white rounded-none border-2 border-black">
+                  <BellRing className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="font-black text-xl uppercase">Push Notifications</h3>
+                  <p className="font-bold text-gray-600">Receive native alerts for new events.</p>
+                </div>
+              </div>
+              <BrutalSwitch 
+                checked={pushNotificationsEnabled} 
+                onCheckedChange={handlePushNotificationsChange} 
               />
             </div>
 

@@ -11,6 +11,8 @@ interface SettingsContextType {
   setHapticsEnabled: (enabled: boolean) => void;
   soundEnabled: boolean;
   setSoundEnabled: (enabled: boolean) => void;
+  pushNotificationsEnabled: boolean;
+  setPushNotificationsEnabled: (enabled: boolean) => void;
   triggerHaptic: () => void;
   playNotificationSound: () => void;
 }
@@ -21,6 +23,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
   const [hapticsEnabled, setHapticsEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
 
   // Load from local storage on mount
   useEffect(() => {
@@ -35,6 +38,16 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
     const savedSound = localStorage.getItem("evento-sound");
     if (savedSound !== null) setSoundEnabled(savedSound === "true");
+
+    const savedPush = localStorage.getItem("evento-push");
+    if (savedPush !== null) setPushNotificationsEnabled(savedPush === "true");
+    
+    // Check actual notification permission on mount and sync state
+    if (typeof window !== "undefined" && "Notification" in window) {
+      if (Notification.permission !== "granted") {
+        setPushNotificationsEnabled(false);
+      }
+    }
   }, []);
 
   // Sync theme to HTML class & localStorage
@@ -55,6 +68,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem("evento-sound", String(soundEnabled));
   }, [soundEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem("evento-push", String(pushNotificationsEnabled));
+  }, [pushNotificationsEnabled]);
 
   const triggerHaptic = () => {
     if (hapticsEnabled && typeof window !== "undefined" && window.navigator && window.navigator.vibrate) {
@@ -97,6 +114,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setHapticsEnabled,
         soundEnabled,
         setSoundEnabled,
+        pushNotificationsEnabled,
+        setPushNotificationsEnabled,
         triggerHaptic,
         playNotificationSound,
       }}
