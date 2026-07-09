@@ -28,9 +28,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   // Load from local storage on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem("evento-theme") as Theme;
-    if (savedTheme) setTheme(savedTheme);
-    else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      setTheme("light");
     }
 
     const savedHaptics = localStorage.getItem("evento-haptics");
