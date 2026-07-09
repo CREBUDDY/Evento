@@ -22,9 +22,10 @@ export async function fetchNotifications(userId: string) {
     });
 
     const lastReadAt = user?.lastNotificationReadAt || new Date(0);
-    const unreadCount = notifications.filter(n => n.createdAt > lastReadAt).length;
+    // Only return notifications that haven't been read yet
+    const unreadNotifications = notifications.filter(n => n.createdAt > lastReadAt);
 
-    return { notifications, unreadCount, lastReadAt };
+    return { notifications: unreadNotifications, unreadCount: unreadNotifications.length, lastReadAt };
   } catch (error) {
     console.error("Error fetching notifications:", error);
     return { notifications: [], unreadCount: 0, lastReadAt: new Date(0) };

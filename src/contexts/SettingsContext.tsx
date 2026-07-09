@@ -44,8 +44,34 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     
     // Check actual notification permission on mount and sync state
     if (typeof window !== "undefined" && "Notification" in window) {
-      if (Notification.permission !== "granted") {
+      if (Notification.permission === "granted") {
+        setPushNotificationsEnabled(true);
+      } else {
         setPushNotificationsEnabled(false);
+      }
+
+      // Register Service Worker for robust background push notifications
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.error('Service Worker registration failed:', err);
+        });
+      }
+
+      // Force ask for permissions on first interaction if they haven't decided yet
+      if (Notification.permission === "default") {
+        const handleFirstInteraction = async () => {
+          document.removeEventListener("click", handleFirstInteraction);
+          try {
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+              setPushNotificationsEnabled(true);
+              localStorage.setItem("evento-push", "true");
+            }
+          } catch (e) {
+            console.error("Failed to request notification permission on click", e);
+          }
+        };
+        document.addEventListener("click", handleFirstInteraction);
       }
     }
   }, []);

@@ -62,10 +62,19 @@ export default function NotificationsBell() {
              
              // Native Push Notification
              if (pushNotificationsEnabled && "Notification" in window && Notification.permission === "granted") {
-               new Notification(latest.title, {
-                 body: latest.message,
-                 icon: '/favicon.ico',
-               });
+               if ('serviceWorker' in navigator) {
+                 navigator.serviceWorker.ready.then(registration => {
+                   registration.showNotification(latest.title, {
+                     body: latest.message,
+                     icon: '/favicon.ico',
+                   });
+                 });
+               } else {
+                 new Notification(latest.title, {
+                   body: latest.message,
+                   icon: '/favicon.ico',
+                 });
+               }
              }
 
              // In-app toast
@@ -94,11 +103,16 @@ export default function NotificationsBell() {
   }, [soundEnabled, triggerHaptic, playNotificationSound, pushNotificationsEnabled, toast]);
 
   const handleOpenChange = async (open: boolean) => {
-    if (open && unreadCount > 0) {
-      setUnreadCount(0);
-      if (currentUserId) {
-         await markNotificationsAsRead(currentUserId);
+    if (open) {
+      if (unreadCount > 0) {
+        setUnreadCount(0);
+        if (currentUserId) {
+           await markNotificationsAsRead(currentUserId);
+        }
       }
+    } else {
+      // Immediately clear visual cache when dropdown closes
+      setNotifications([]);
     }
   };
 
